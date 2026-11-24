@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examen Interactivo de Organización de Empresas - Tema II</title>
+<style>
+  :root{
+    --azul:#1F3864;--azul-claro:#2c4f8a;--rojo:#B5121B;--rojo-claro:#d4252f;
+    --texto:#1b2433;--texto-suave:#5d6a7e;--panel:#ffffff;--panel2:#f5f8fd;
+    --opt-bg:#f7f9fd;--opt-hover:#eaf1fb;--borde:#d3dcea;--hud-bg:rgba(255,255,255,.93);
+    --body-bg:radial-gradient(circle at 20% 0%, #ffffff 0%, #e8edf6 65%);
+    --verde:#157a41;--verde-bg:rgba(21,122,65,.12);--rojo-bg:rgba(181,18,27,.10);
+    --info-bg:rgba(31,56,100,.07);--sombra:0 4px 18px rgba(31,56,100,.12);
+  }
+  html[data-theme="dark"]{
+    --texto:#e8edf5;--texto-suave:#a9b6cc;--panel:#152033;--panel2:#1b2942;
+    --opt-bg:#0f1a2c;--opt-hover:#16243c;--borde:#27374f;--hud-bg:rgba(13,22,38,.93);
+    --body-bg:radial-gradient(circle at 20% 0%, #16233b 0%, #0d1626 55%);
+    --verde:#46d07f;--verde-bg:rgba(30,142,78,.18);--rojo-bg:rgba(181,18,27,.20);
+    --info-bg:rgba(108,140,200,.12);--sombra:0 4px 18px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Times New Roman", Times, serif;background:var(--body-bg);color:var(--texto);line-height:1.55;padding-bottom:60px;transition:background .3s,color .3s;}
+  header.top{background:linear-gradient(120deg, var(--azul) 0%, #16273f 60%, var(--rojo) 160%);padding:28px 24px 22px;border-bottom:3px solid var(--rojo);box-shadow:0 6px 22px rgba(0,0,0,.30);color:#fff;}
+  header.top h1{margin:0;font-size:28px;letter-spacing:.4px;text-shadow:0 2px 6px rgba(0,0,0,.5);}
+  header.top p{margin:6px 0 0;color:#dde4f0;font-size:16px;font-style:italic;}
+  .dynamic-tag{display:inline-block;margin-top:10px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.30);border-radius:20px;padding:4px 14px;font-size:14px;font-family:Arial,sans-serif;font-style:normal;color:#fff;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 18px;}
+  .hud{position:sticky;top:0;z-index:50;background:var(--hud-bg);backdrop-filter:blur(6px);border-bottom:1px solid var(--borde);padding:12px 18px;box-shadow:0 4px 16px rgba(0,0,0,.15);}
+  .hud-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .timer{font-size:24px;font-weight:bold;background:var(--azul);color:#fff;border:2px solid var(--rojo);padding:6px 16px;border-radius:10px;min-width:120px;text-align:center;letter-spacing:1px;}
+  .timer.warning{animation:pulse 1s infinite;border-color:#ffb300;}
+  .timer.danger{background:var(--rojo);animation:pulse .7s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+  .timer-label{font-size:12px;color:#cdd7e8;display:block;font-weight:normal;letter-spacing:0;}
+  .pract-badge{font-family:Arial,sans-serif;font-size:14px;background:var(--azul);color:#fff;border-radius:20px;padding:8px 16px;white-space:nowrap;}
+  .progress-zone{flex:1;min-width:180px;}
+  .progress-text{font-size:13px;color:var(--texto-suave);margin-bottom:4px;display:flex;justify-content:space-between;}
+  .bar{height:14px;background:var(--opt-bg);border:1px solid var(--borde);border-radius:8px;overflow:hidden;}
+  .bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--azul-claro),var(--rojo));transition:width .4s ease;}
+  .theme-btn{font-family:Arial,sans-serif;font-size:14px;cursor:pointer;background:var(--panel);color:var(--texto);border:1px solid var(--borde);border-radius:20px;padding:7px 14px;white-space:nowrap;transition:background .2s;}
+  .theme-btn:hover{background:var(--opt-hover);}
+  section.bloque{background:var(--panel);border:1px solid var(--borde);border-left:5px solid var(--rojo);border-radius:12px;margin:26px 0;padding:20px 24px 8px;box-shadow:var(--sombra);}
+  section.bloque > h2{margin:0 0 4px;font-size:23px;color:var(--azul);}
+  html[data-theme="dark"] section.bloque > h2{color:#fff;}
+  .seccion-desc{color:var(--texto-suave);font-style:italic;margin:0 0 14px;font-size:15px;}
+  .badge{display:inline-block;background:var(--rojo);color:#fff;font-size:13px;padding:2px 10px;border-radius:20px;margin-left:8px;vertical-align:middle;font-family:Arial, sans-serif;}
+  #config{border-left-color:var(--azul);}
+  .cfg-row{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin:16px 0;padding-bottom:14px;border-bottom:1px dashed var(--borde);}
+  .cfg-row:last-of-type{border-bottom:none;}
+  .cfg-label{min-width:110px;font-weight:bold;padding-top:6px;}
+  .opciones-cfg{display:flex;gap:10px;flex-wrap:wrap;flex:1;}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:var(--opt-bg);border:1px solid var(--borde);border-radius:22px;padding:8px 16px;cursor:pointer;font-size:15px;transition:background .2s,border-color .2s;}
+  .chip:hover{background:var(--opt-hover);border-color:var(--azul-claro);}
+  .chip input{accent-color:var(--rojo);width:16px;height:16px;cursor:pointer;}
+  select{font-family:inherit;font-size:15px;padding:8px 12px;border-radius:8px;border:1px solid var(--borde);background:var(--opt-bg);color:var(--texto);cursor:pointer;}
+  #cfgAviso{color:var(--rojo);font-weight:bold;min-height:18px;margin:6px 0 0;}
+  .preg{background:var(--panel2);border:1px solid var(--borde);border-radius:10px;padding:14px 18px;margin:14px 0;transition:border-color .3s, background .3s;}
+  .preg .q{font-size:17px;margin:0 0 10px;font-weight:bold;}
+  .preg .q .num{color:var(--rojo);margin-right:6px;}
+  .opciones{display:flex;flex-direction:column;gap:8px;}
+  .opciones.vf{flex-direction:row;gap:14px;}
+  label.opt{display:flex;align-items:center;gap:10px;background:var(--opt-bg);border:1px solid var(--borde);padding:9px 14px;border-radius:8px;cursor:pointer;transition:background .2s,border-color .2s;font-size:16px;}
+  label.opt:hover{background:var(--opt-hover);border-color:var(--azul-claro);}
+  .opciones.vf label.opt{flex:1;justify-content:center;font-weight:bold;}
+  label.opt input{accent-color:var(--rojo);width:17px;height:17px;cursor:pointer;}
+  label.opt.sel{border-color:var(--rojo);background:var(--opt-hover);}
+  label.opt.correcta{border-color:var(--verde);background:var(--verde-bg);}
+  label.opt.incorrecta{border-color:var(--rojo);background:var(--rojo-bg);}
+  .marca{margin-left:auto;font-weight:bold;font-family:Arial,sans-serif;font-size:14px;}
+  .marca.ok{color:var(--verde);}
+  .marca.no{color:var(--rojo);}
+  .preg.bien{border-color:var(--verde);}
+  .preg.mal{border-color:var(--rojo);}
+  .explicacion{display:none;margin-top:10px;font-size:15px;background:var(--info-bg);border-left:3px solid var(--azul-claro);border-radius:6px;padding:9px 13px;}
+  .explicacion .et{font-family:Arial,sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--azul-claro);font-weight:bold;display:block;margin-bottom:2px;}
+  html[data-theme="dark"] .explicacion .et{color:#8fb0ee;}
+  textarea{width:100%;min-height:120px;resize:vertical;background:var(--opt-bg);color:var(--texto);border:1px solid var(--borde);border-radius:8px;padding:12px;font-family:"Times New Roman",serif;font-size:16px;line-height:1.5;}
+  textarea:focus{outline:none;border-color:var(--azul-claro);box-shadow:0 0 0 2px rgba(44,79,138,.3);}
+  .modelo{display:none;margin-top:12px;background:var(--verde-bg);border:1px solid var(--verde);border-radius:8px;padding:12px 16px;}
+  .modelo h4{margin:0 0 6px;color:var(--verde);font-family:Arial,sans-serif;font-size:14px;text-transform:uppercase;letter-spacing:.5px;}
+  .modelo p,.modelo ul{margin:6px 0;font-size:15px;}
+  .acciones{text-align:center;margin:34px 0 10px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  button.btn{font-family:"Times New Roman",serif;font-size:18px;font-weight:bold;background:var(--rojo);color:#fff;border:none;border-radius:10px;padding:12px 28px;cursor:pointer;box-shadow:0 5px 16px rgba(181,18,27,.35);transition:transform .15s, background .2s;}
+  button.btn:hover{background:var(--rojo-claro);transform:translateY(-2px);}
+  button.btn:disabled{background:#999;cursor:not-allowed;box-shadow:none;transform:none;}
+  button.btn.secundario{background:var(--azul);box-shadow:0 5px 16px rgba(31,56,100,.35);}
+  button.btn.secundario:hover{background:var(--azul-claro);}
+  button.btn.verde{background:var(--verde);box-shadow:0 5px 16px rgba(21,122,65,.3);}
+  button.btn.verde:hover{filter:brightness(1.1);}
+  #resultado{display:none;position:relative;background:linear-gradient(120deg,var(--azul),#16273f);border:2px solid var(--rojo);border-radius:14px;padding:22px 26px;margin:24px 0;box-shadow:0 8px 30px rgba(0,0,0,.35);text-align:center;color:#fff;}
+  #resultado h2{margin:0 0 10px;font-size:26px;}
+  .cerrar-result{position:absolute;top:10px;right:12px;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:rgba(0,0,0,.25);color:#fff;font-size:20px;line-height:1;cursor:pointer;font-family:Arial,sans-serif;}
+  .cerrar-result:hover{background:var(--rojo);}
+  .score-grid{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin:14px 0;}
+  .score-card{background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:14px 22px;min-width:150px;}
+  .score-card .big{font-size:34px;font-weight:bold;display:block;}
+  .score-card .lbl{font-size:13px;color:#cdd7e8;font-family:Arial,sans-serif;}
+  .nota-final{font-size:20px;margin-top:8px;}
+  .aviso{font-size:14px;color:#dfe6f2;font-style:italic;margin-top:10px;}
+  footer{max-width:1000px;margin:30px auto 0;padding:0 18px;color:var(--texto-suave);font-size:13px;text-align:center;font-style:italic;}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Examen de Organización de Empresas</h1>
+    <p>UNIROMANA · Tema II · El proceso de dirección en la empresa</p>
+    <span class="dynamic-tag">🎲 Dinámico · 🎯 por temas · 📝 modo práctica</span>
+  </div>
+</header>
+<div class="hud">
+  <div class="hud-inner">
+    <div class="timer" id="timer" style="display:none;">45:00<span class="timer-label">Tiempo restante</span></div>
+    <span class="pract-badge" id="practBadge" style="display:none;">📝 Modo práctica</span>
+    <div class="progress-zone">
+      <div class="progress-text"><span>Progreso</span><span id="progPct">Configura tu examen abajo</span></div>
+      <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+    </div>
+    <button class="theme-btn" id="themeBtn" title="Cambiar tema">🌙 Modo oscuro</button>
+  </div>
+</div>
+<div class="wrap">
+  <section class="bloque" id="config">
+    <h2>Configura tu examen</h2>
+    <p class="seccion-desc">Elige el modo, los temas y la longitud. Las preguntas se eligen al azar de un banco amplio.</p>
+    <div class="cfg-row">
+      <div class="cfg-label">Modo</div>
+      <div class="opciones-cfg">
+        <label class="chip"><input type="radio" name="modo" value="examen" checked> 🎓 Examen <span style="color:var(--texto-suave)">(con tiempo, corrección al final)</span></label>
+        <label class="chip"><input type="radio" name="modo" value="practica"> 📝 Práctica <span style="color:var(--texto-suave)">(corrección inmediata, sin reloj)</span></label>
+      </div>
+    </div>
+    <div class="cfg-row">
+      <div class="cfg-label">Nivel</div>
+      <div class="opciones-cfg">
+        <label class="chip"><input type="radio" name="nivel" value="normal" checked> 🟢 Normal</label>
+        <label class="chip"><input type="radio" name="nivel" value="dificil"> 🔴 Difícil <span style="color:var(--texto-suave)">(aplicación y casos · penaliza fallos · corte 7/10 · menos tiempo)</span></label>
+      </div>
+    </div>
+    <div class="cfg-row">
+      <div class="cfg-label">Temas</div>
+      <div class="opciones-cfg">
+        <label class="chip"><input type="checkbox" class="tema" value="1" checked> 1. Empresario</label>
+        <label class="chip"><input type="checkbox" class="tema" value="2" checked> 2. Funciones dirección</label>
+        <label class="chip"><input type="checkbox" class="tema" value="3" checked> 3. 8 etapas planificación</label>
+        <label class="chip"><input type="checkbox" class="tema" value="4" checked> 4. Planificación estratégica</label>
+        <label class="chip"><input type="checkbox" class="tema" value="5" checked> 5. Factores estrategia</label>
+        <label class="chip"><input type="checkbox" class="tema" value="6" checked> 6. Componentes Hofer</label>
+        <label class="chip"><input type="checkbox" class="tema" value="7" checked> 7. Niveles estrategia</label>
+        <label class="chip"><input type="checkbox" class="tema" value="8" checked> 8. Estrategia corporativa</label>
+        <label class="chip"><input type="checkbox" class="tema" value="9" checked> 9. Modos de desarrollo</label>
+        <label class="chip"><input type="checkbox" class="tema" value="10" checked> 10. Porter</label>
+        <label class="chip"><input type="checkbox" class="tema" value="11" checked> 11. Organización</label>
+        <label class="chip"><input type="checkbox" class="tema" value="12" checked> 12. Partes + C-suite</label>
+      </div>
+    </div>
+    <div class="cfg-row">
+      <div class="cfg-label">Longitud</div>
+      <div class="opciones-cfg">
+        <select id="longitud">
+          <option value="5">Corta — 5 V/F · 5 múltiple · 1 desarrollo</option>
+          <option value="10" selected>Media — 10 V/F · 10 múltiple · 3 desarrollo</option>
+          <option value="15">Larga — 15 V/F · 15 múltiple · 4 desarrollo</option>
+        </select>
+      </div>
+    </div>
+    <div class="cfg-row" id="rowTiempo">
+      <div class="cfg-label">Tiempo</div>
+      <div class="opciones-cfg">
+        <select id="tiempo">
+          <option value="1800">30 minutos</option>
+          <option value="2700" selected>45 minutos</option>
+          <option value="3600">60 minutos</option>
+          <option value="0">Sin límite</option>
+        </select>
+      </div>
+    </div>
+    <p id="cfgAviso"></p>
+    <div style="text-align:center;margin:10px 0 18px;">
+      <button class="btn" id="btnComenzar">Comenzar ▶</button>
+    </div>
+  </section>
+  <div id="examen" style="display:none;">
+    <div id="resultado">
+      <button class="cerrar-result" id="cerrarResult" title="Cerrar resultados">✕</button>
+      <h2>Resultados</h2>
+      <div class="score-grid">
+        <div class="score-card"><span class="big" id="scVF">0/0</span><span class="lbl">Verdadero o Falso</span></div>
+        <div class="score-card"><span class="big" id="scMC">0/0</span><span class="lbl">Selección Múltiple</span></div>
+        <div class="score-card"><span class="big" id="scTotal">0/0</span><span class="lbl">Total autocorregido</span></div>
+      </div>
+      <div class="nota-final" id="notaFinal"></div>
+      <div id="penalInfo" style="font-size:14px;color:#ffd7b0;margin-top:4px;"></div>
+      <p class="aviso">Bajo cada pregunta de las secciones 1 y 2 tienes la explicación. La Sección 3 muestra una respuesta modelo.</p>
+    </div>
+    <section class="bloque" id="sec1">
+      <h2>Sección 1 — Verdadero o Falso <span class="badge" id="badge1">0 preguntas</span></h2>
+      <p class="seccion-desc">Marca si cada afirmación es Verdadera (V) o Falsa (F).</p>
+      <div id="contVF"></div>
+    </section>
+    <section class="bloque" id="sec2">
+      <h2>Sección 2 — Selección Múltiple <span class="badge" id="badge2">0 preguntas</span></h2>
+      <p class="seccion-desc">Selecciona la opción correcta (una sola respuesta por pregunta).</p>
+      <div id="contMC"></div>
+    </section>
+    <section class="bloque" id="sec3">
+      <h2>Sección 3 — Desarrollo <span class="badge" id="badge3">0 preguntas</span></h2>
+      <p class="seccion-desc">Responde de forma argumentada. No se autocorrigen; al ver los resultados se mostrará una respuesta modelo.</p>
+      <div id="contDEV"></div>
+    </section>
+    <div class="acciones">
+      <button class="btn" id="btnVer">Ver resultados</button>
+      <button class="btn verde" id="btnRepetir" style="display:none;">Repetir solo los fallos</button>
+      <button class="btn secundario" id="btnReiniciar" style="display:none;">Configurar otro examen</button>
+    </div>
+  </div>
+  <footer>UNIROMANA · Organización de Empresas · Tema II. Examen interactivo de práctica dinámico basado en el libro CSJ076 y contenido de clase.</footer>
+</div>
+<script>
+(function(){document.documentElement.setAttribute('data-theme', localStorage.getItem('tema')||'light');})();
+function pintaBotonTema(){const t=document.documentElement.getAttribute('data-theme');document.getElementById('themeBtn').textContent=t==='dark'?'☀️ Modo claro':'🌙 Modo oscuro';}
+document.getElementById('themeBtn').addEventListener('click',()=>{const a=document.documentElement.getAttribute('data-theme');const n=a==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('tema',n);pintaBotonTema();});
+pintaBotonTema();
+
+/* ===================== BANCOS ===================== */
+const bankVF = [
+  {t:1,q:"Schumpeter (1911) considera que el auténtico empresario es aquel que genera innovaciones significativas que impulsan el desarrollo económico.", r:true, e:"Correcto. Schumpeter prioriza la innovación, a diferencia de Knight."},
+  {t:1,q:"Según Knight (1921), el beneficio residual del empresario se justifica principalmente por la innovación temporal de monopolio.", r:false, e:"Falso. Knight lo justifica por el riesgo de adelantar pagos sin conocer el resultado. Eso es más cercano a Schumpeter."},
+  {t:1,q:"Veciana (1989) presenta rasgos como deseo de independencia, iniciativa hacia logros y propensión a riesgos moderados.", r:true, e:"Correcto según el libro."},
+  {t:2,q:"Fayol (1916) identificó 5 funciones: prever, organizar, dirigir, coordinar y controlar.", r:true, e:"Correcto. Las 4 actuales (planificar, organizar, gestionar, controlar) son una agrupación moderna."},
+  {t:2,q:"Las funciones de la dirección según el libro son exactamente las 5 de Fayol sin ninguna agrupación posterior.", r:false, e:"Falso. El libro señala que actualmente se agrupan en 4."},
+  {t:3,q:"La primera etapa del proceso de planificación es el diagnóstico de la situación de partida.", r:true, e:"Correcto. Siguen fijación de objetivos, premisas, líneas de acción, etc."},
+  {t:3,q:"La presupuestación es la primera etapa del proceso de planificación.", r:false, e:"Falso. Es la última (etapa 8). La primera es el diagnóstico."},
+  {t:4,q:"Las decisiones de recursos estratégicos marcan el futuro, implican muchos fondos y son inalterables a corto plazo.", r:true, e:"Correcto según el libro."},
+  {t:4,q:"La planificación estratégica se divide solo en formulación y control, sin puesta en práctica.", r:false, e:"Falso. Incluye formulación, puesta en práctica y control."},
+  {t:5,q:"El libro identifica 6 factores que condicionan la estrategia, incluyendo las relaciones con los stakeholders.", r:true, e:"Correcto: entorno, fortalezas/debilidades, historia (Selznick), stakeholders, valores de directivos y cultura."},
+  {t:5,q:"Hamel y Prahalad (1989) defienden el modelo de ajuste de Harvard como el más adecuado para entornos cambiantes.", r:false, e:"Falso. Ellos proponen un desajuste deliberado para impulsar innovación."},
+  {t:6,q:"Según Hofer (1978), los componentes de la estrategia son alcance, despliegue de recursos, ventaja competitiva y sinergia.", r:true, e:"Correcto."},
+  {t:6,q:"La sinergia se produce cuando el todo es menor que la suma de las partes.", r:false, e:"Falso. El todo es mayor que la suma de las partes."},
+  {t:7,q:"En empresas diversificadas existen tres niveles de estrategia: corporativa, de negocio y funcional.", r:true, e:"Correcto."},
+  {t:7,q:"La estrategia funcional es la que administra la cartera de negocios.", r:false, e:"Falso. Eso corresponde a la corporativa."},
+  {t:8,q:"Andrews (1971) define la estrategia corporativa como el modelo de decisiones que determina objetivos, políticas y la variedad de negocios.", r:true, e:"Correcto."},
+  {t:8,q:"El modelo de desarrollo responde a 'cómo' crecer, mientras que los modos responden a 'hacia dónde'.", r:false, e:"Falso. Es al revés: modelo = hacia dónde (especialización, diversificación...); modos = cómo (interno, fusión...)."},
+  {t:9,q:"Una fusión horizontal se da entre empresas que compiten con las mismas líneas de productos.", r:true, e:"Correcto. Ejemplo clásico: Exxon y Mobil (1999)."},
+  {t:9,q:"Una adquisición se denomina OPA cuando la empresa adquirida no cotiza en bolsa.", r:false, e:"Falso. Se llama OPA cuando la adquirida cotiza."},
+  {t:9,q:"El desarrollo interno puede ser inducido (planificado) o autónomo (espontáneo).", r:true, e:"Correcto según el libro."},
+  {t:10,q:"La diferenciación de Porter consiste en fabricar al menor coste posible.", r:false, e:"Falso. Eso es liderazgo en costes. La diferenciación busca atributos únicos valorados por el cliente."},
+  {t:10,q:"No se debe confundir diferenciación con segmentación, porque la segmentación elige el mercado y la diferenciación es cómo competir.", r:true, e:"Correcto según el libro."},
+  {t:11,q:"El problema técnico de la organización se relaciona con flujos de trabajo, control y puestos medibles, mientras que el social con relaciones de poder y cultura.", r:true, e:"Correcto."},
+  {t:11,q:"La organización formal es el conjunto de relaciones espontáneas no planificadas.", r:false, e:"Falso. Eso es la informal. La formal es la estructura deliberada (organigrama)."},
+  {t:12,q:"El núcleo de operaciones realiza las funciones de transformación de inputs en outputs y ventas.", r:true, e:"Correcto."},
+  {t:12,q:"La tecnoestructura y el staff de apoyo son lo mismo.", r:false, e:"Falso. Tecnoestructura planifica y mejora procesos; staff de apoyo presta servicios como asesoría o cafetería."},
+  {t:12,q:"El CEO es el máximo responsable de la alta dirección y se encarga de la estrategia general.", r:true, e:"Correcto (contenido de clase). COO opera el día a día; CMO el marketing."}
+];
+
+const bankMC = [
+  {t:1,q:"Según Schumpeter, el auténtico empresario se caracteriza por:", o:["Asumir riesgos sin innovar","Generar innovaciones significativas","Organizar factores sin cambiar nada","Solo recibir el beneficio residual"], c:0, e:"Prioriza la innovación como motor del desarrollo."},
+  {t:1,q:"Knight (1921) justifica el beneficio del empresario principalmente por:", o:["La innovación temporal","El riesgo de adelantar pagos sin certeza","La imitación de otros","El salario de dirección"], c:1, e:"El riesgo es la clave en Knight."},
+  {t:2,q:"Las 4 funciones actuales de la dirección son:", o:["Prever, organizar, dirigir, controlar","Planificar, organizar, gestionar, controlar","Organizar, coordinar, dirigir, prever","Planificar, coordinar, gestionar, dirigir"], c:2, e:"Agrupación moderna de las 5 de Fayol."},
+  {t:3,q:"¿Cuántas etapas tiene el proceso de planificación según el libro?", o:["5","6","8","10"], c:3, e:"Diagnóstico, objetivos, premisas, líneas, evaluación, elección, planes derivados, presupuestación."},
+  {t:4,q:"Los rasgos de las decisiones de recursos estratégicos son:", o:["Reversibles y de bajo coste","Marcan el futuro, muchos fondos, inalterables a corto plazo","Solo operativas","Sin impacto en el futuro"], c:0, e:"Según el libro."},
+  {t:5,q:"Selznick (1957) se relaciona principalmente con:", o:["El modelo de ajuste","La historia de la empresa y su carácter","Los stakeholders","La cultura empresarial"], c:1, e:"La historia puede dejar a la empresa rehén de su pasado."},
+  {t:6,q:"Los 4 componentes de Hofer (1978) son:", o:["Misión, visión, objetivos, planes","Alcance, despliegue de recursos, ventaja competitiva, sinergia","Formulación, implementación, control, evaluación","Corporativa, negocio, funcional, operativa"], c:2, e:"Exactamente esos cuatro."},
+  {t:7,q:"La estrategia que administra la cartera de negocios y aprovecha sinergias es:", o:["Funcional","De negocio","Corporativa","Operativa"], c:3, e:"La corporativa."},
+  {t:8,q:"Según Andrews (1971), la estrategia corporativa es:", o:["Solo la elección de fusiones","El modelo de decisiones que determina objetivos y variedad de negocios","Solo los modos de desarrollo","Únicamente la asignación de recursos"], c:0, e:"Definición del libro."},
+  {t:9,q:"La fusión de Exxon y Mobil (1999) es un ejemplo de:", o:["Vertical","Horizontal","Conglomerado","Interna"], c:1, e:"Horizontal: competidores del mismo sector."},
+  {t:9,q:"Disney con Pixar (2006) y Marvel (2009) son ejemplos de:", o:["Desarrollo interno inducido","Fusiones horizontales","Adquisiciones que aportan capacidades creativas","Conglomerados no relacionados"], c:2, e:"Adquisiciones estratégicas (contenido de clase)."},
+  {t:9,q:"El desarrollo interno autónomo se caracteriza por:", o:["Ser planificado solo en I+D","Surgir de forma espontánea en cualquier departamento","Requerir siempre una fusión","Ser solo vertical"], c:3, e:"Según el libro."},
+  {t:10,q:"Un riesgo del liderazgo en costes es:", o:["La facilidad de imitación por empresas con recursos","La imposibilidad de estandarizar","El alto coste siempre","La segmentación obligatoria"], c:0, e:"El libro lo señala."},
+  {t:10,q:"Confundir diferenciación con segmentación es un error porque:", o:["Son exactamente lo mismo","La segmentación elige el mercado y la diferenciación es cómo competir en él","La diferenciación no existe","Solo aplica a costes"], c:1, e:"Advertencia explícita del libro."},
+  {t:11,q:"Los 4 elementos de Nadler y Tushman (1988) son:", o:["Trabajo, personas, formal e informal","Núcleo, alta dirección, línea media, staff","Técnico, social, estrategia, estructura","Formal, informal, técnico, cultural"], c:2, e:"Exactamente esos."},
+  {t:11,q:"La organización informal se define como:", o:["El organigrama deliberado","Las relaciones espontáneas no planificadas","Solo la tecnoestructura","El staff de apoyo"], c:3, e:"Resultado de necesidades de interacción social."},
+  {t:12,q:"El ápice estratégico o alta dirección se encarga principalmente de:", o:["Transformar inputs en outputs","Supervisar la organización como un todo, relaciones con el entorno y definir la estrategia","Prestar servicios de cafetería","Mejorar procesos técnicos"], c:0, e:"Según el libro."},
+  {t:12,q:"El CEO, COO y CMO corresponden a:", o:["Núcleo de operaciones","Alta dirección (C-suite)","Tecnoestructura","Staff de apoyo"], c:1, e:"CEO estrategia, COO operaciones, CMO marketing (clase)."},
+  {t:12,q:"La tecnoestructura se dedica a:", o:["Vender productos","Planificar, diseñar y mejorar procesos de trabajo","Servicios de limpieza","Tomar decisiones estratégicas finales"], c:2, e:"Técnicos y analistas que formalizan procesos."},
+  {t:6,q:"La sinergia permite:", o:["Que el todo sea igual a la suma de las partes","Usar la ventaja de un mercado en otro","Eliminar recursos","Reducir el alcance"], c:3, e:"Cuando los negocios se refuerzan mutuamente."}
+];
+
+const bankDEV = [
+  {t:3,q:"Describe las 8 etapas del proceso de planificación y aplícalas brevemente a una librería que quiere lanzar libros digitales.", modelo:"1. Diagnóstico de situación de partida. 2. Fijación de objetivos (asequibles, jerarquizados, cuantificados, conocidos). 3. Establecimiento de premisas. 4. Determinación de líneas de acción. 5. Evaluación de líneas. 6. Elección. 7. Planes derivados. 8. Presupuestación. Ejemplo: diagnosticar demanda digital actual, fijar 25% ventas digitales en un año, premisas sobre competencia online, etc."},
+  {t:9,q:"Compara desarrollo interno (inducido vs autónomo) con fusión y adquisición. Incluye los tipos (horizontal, vertical, conglomerado) y los ejemplos de Exxon-Mobil y Disney-Pixar/Marvel. Aplícalo a un taller de vehículos que quiere entrar en eléctricos.", modelo:"Interno: inducido (planificado, ej. I+D) o autónomo (espontáneo). Captura valor propio. Fusión: operación jurídica que une patrimonios. Adquisición: compra de control (OPA si cotiza). Horizontal (Exxon-Mobil 1999, competidores), vertical (cadena de valor), conglomerado (no relacionados). Disney-Pixar 2006 y Marvel 2009: adquisiciones de capacidades creativas. Taller: formar técnicos (interno) vs comprar un taller de eléctricos (adquisición horizontal o vertical)."},
+  {t:10,q:"Explica las tres estrategias competitivas de Porter, sus principales riesgos y por qué no se debe confundir diferenciación con segmentación.", modelo:"Liderazgo en costes: costes más bajos, economías de escala; riesgos: imitación fácil, obsesión que reduce calidad percibida, paradoja de la productividad. Diferenciación: atributos únicos valorados; riesgos: diferenciar lo que el cliente no valora, precio excesivo, fácil imitación. Enfoque: segmento específico (puede ser en costes o diferenciación). No confundir: segmentación elige el mercado objetivo; diferenciación es la forma de competir dentro de él."},
+  {t:11,q:"Diferencia el problema técnico del social de la organización y explica los 4 elementos de Nadler y Tushman (1988), incluyendo formal vs informal. Aplica a un taller de vehículos.", modelo:"Técnico: poner en marcha la estrategia, flujos de valor, control eficiente, puestos medibles. Social: relaciones de poder, entre grupos, compatibilidad de valores, cultura y ambiente. Elementos: 1. Trabajo (separabilidad, cambios, ambigüedad, conocimiento). 2. Personas. 3. Organización formal (estructura deliberada, organigrama). 4. Informal (relaciones espontáneas). En el taller: formal (jefes de taller y organigrama), informal (amistades entre mecánicos que facilitan o dificultan la coordinación)."},
+  {t:12,q:"Describe las partes de la organización (núcleo de operaciones, alta dirección, línea media, tecnoestructura y staff de apoyo) y relaciona el C-suite (CEO, COO, CMO) con ellas.", modelo:"Núcleo: transformación inputs-outputs, ventas, soporte directo. Alta dirección (ápice estratégico): misión, estrategia, relaciones con el entorno. Línea media: nexo entre alta dirección y núcleo. Tecnoestructura: técnicos que planifican y formalizan procesos. Staff de apoyo: servicios auxiliares (asesoría, seguridad, etc.). C-suite: CEO (estrategia general, alta dirección), COO (operaciones día a día), CMO (marketing)."}
+];
+
+/* ===================== ESTADO Y UTILIDADES ===================== */
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function pick(arr,n){return shuffle(arr.slice()).slice(0,Math.min(n,arr.length));}
+
+let examVF=[],examMC=[],examDEV=[],resVF=[],resMC=[];
+let currentModo='examen',currentTiempo=2700,currentNivel='normal',intv=null,finalizado=false,restante=0;
+
+function ordenarPool(bank,temas,nivel){
+  const base=bank.filter(x=>temas.includes(String(x.t)));
+  return shuffle(base);
+}
+
+/* ===================== RENDER ===================== */
+function renderExamen(){
+  const cVF=document.getElementById('contVF');cVF.innerHTML='';
+  examVF.forEach((item,i)=>{
+    const d=document.createElement('div');d.className='preg';d.dataset.tipo='vf';d.dataset.idx=i;
+    d.innerHTML=`<p class="q"><span class="num">${i+1}.</span>${item.q}</p>
+      <div class="opciones vf">
+        <label class="opt"><input type="radio" name="vf${i}" value="true"><span>Verdadero</span></label>
+        <label class="opt"><input type="radio" name="vf${i}" value="false"><span>Falso</span></label>
+      </div>
+      <div class="explicacion"><span class="et">Explicación</span>${item.e}</div>`;
+    cVF.appendChild(d);
+  });
+  const cMC=document.getElementById('contMC');cMC.innerHTML='';
+  examMC.forEach((item,i)=>{
+    const d=document.createElement('div');d.className='preg';d.dataset.tipo='mc';d.dataset.idx=i;
+    // Shuffle options while keeping track of correct
+    const optsShuffled = item.o.map((text, origIdx) => ({text, origIdx}));
+    shuffle(optsShuffled);
+    const correctNew = optsShuffled.findIndex(o => o.origIdx === item.c);
+    let opts='';
+    optsShuffled.forEach((op,j)=>{const letra=String.fromCharCode(97+j);opts+=`<label class="opt"><input type="radio" name="mc${i}" value="${j}"><span>${letra}) ${op.text}</span></label>`;});
+    d.innerHTML=`<p class="q"><span class="num">${i+1}.</span>${item.q}</p><div class="opciones">${opts}</div>
+      <div class="explicacion"><span class="et">Explicación</span>${item.e}</div>`;
+    d.dataset.correct = correctNew;
+    cMC.appendChild(d);
+  });
+  const cDEV=document.getElementById('contDEV');cDEV.innerHTML='';
+  examDEV.forEach((item,i)=>{
+    const d=document.createElement('div');d.className='preg';
+    d.innerHTML=`<p class="q"><span class="num">${i+1}.</span>${item.q}</p>
+      <textarea placeholder="Escribe aquí tu respuesta..."></textarea>
+      <div class="modelo"><h4>Respuesta modelo sugerida</h4><p>${item.modelo}</p></div>`;
+    cDEV.appendChild(d);
+  });
+  document.getElementById('badge1').textContent = examVF.length+' preguntas';
+  document.getElementById('badge2').textContent = examMC.length+' preguntas';
+  document.getElementById('badge3').textContent = examDEV.length+' preguntas';
+  document.getElementById('sec3').style.display = examDEV.length>0 ? 'block' : 'none';
+  actualizarProgreso();
+}
+
+function actualizarProgreso(){
+  const total=examVF.length+examMC.length+examDEV.length;
+  let n=0;
+  examVF.forEach((_,i)=>{if(document.querySelector(`input[name="vf${i}"]:checked`))n++;});
+  examMC.forEach((_,i)=>{if(document.querySelector(`input[name="mc${i}"]:checked`))n++;});
+  document.querySelectorAll('#sec3 textarea').forEach(t=>{if(t.value.trim())n++;});
+  const pct=total?Math.round(n/total*100):0;
+  document.getElementById('barFill').style.width=pct+'%';
+  document.getElementById('progPct').textContent=`${pct}% — ${n} / ${total} respondidas`;
+}
+
+function gradeOne(tipo,i){
+  const preg=document.querySelector(`.preg[data-tipo="${tipo}"][data-idx="${i}"]`);
+  if(!preg) return false;
+  if(tipo==='vf'){
+    const item=examVF[i];const sel=document.querySelector(`input[name="vf${i}"]:checked`);const cv=String(item.r);
+    document.querySelectorAll(`input[name="vf${i}"]`).forEach(inp=>{
+      const lab=inp.closest('label.opt');lab.classList.remove('sel');inp.disabled=true;
+      if(inp.value===cv){lab.classList.add('correcta');if(!lab.querySelector('.marca'))lab.insertAdjacentHTML('beforeend','<span class="marca ok">✓ correcta</span>');}
+    });
+    let ok=false;
+    if(sel){if(sel.value===cv){ok=true;preg.classList.add('bien');}else{preg.classList.add('mal');const lab=sel.closest('label.opt');lab.classList.add('incorrecta');if(!lab.querySelector('.marca'))lab.insertAdjacentHTML('beforeend','<span class="marca no">✗ tu respuesta</span>');}}
+    else preg.classList.add('mal');
+    preg.querySelector('.explicacion').style.display='block';
+    return ok;
+  }else{
+    const correctIdx = parseInt(preg.dataset.correct);
+    const sel=document.querySelector(`input[name="mc${i}"]:checked`);
+    document.querySelectorAll(`input[name="mc${i}"]`).forEach(inp=>{
+      const lab=inp.closest('label.opt');lab.classList.remove('sel');inp.disabled=true;
+      if(parseInt(inp.value)===correctIdx){lab.classList.add('correcta');if(!lab.querySelector('.marca'))lab.insertAdjacentHTML('beforeend','<span class="marca ok">✓ correcta</span>');}
+    });
+    let ok=false;
+    if(sel){if(parseInt(sel.value)===correctIdx){ok=true;preg.classList.add('bien');}else{preg.classList.add('mal');const lab=sel.closest('label.opt');lab.classList.add('incorrecta');if(!lab.querySelector('.marca'))lab.insertAdjacentHTML('beforeend','<span class="marca no">✗ tu respuesta</span>');}}
+    else preg.classList.add('mal');
+    preg.querySelector('.explicacion').style.display='block';
+    return ok;
+  }
+}
+
+document.getElementById('btnComenzar').addEventListener('click',()=>{
+  const temas = Array.from(document.querySelectorAll('.tema:checked')).map(c=>c.value);
+  if(temas.length===0){document.getElementById('cfgAviso').textContent='Selecciona al menos un tema.';return;}
+  currentModo = document.querySelector('input[name="modo"]:checked').value;
+  currentNivel = document.querySelector('input[name="nivel"]:checked').value;
+  const long = parseInt(document.getElementById('longitud').value);
+  currentTiempo = parseInt(document.getElementById('tiempo').value);
+  examVF = pick(ordenarPool(bankVF,temas,currentNivel), long);
+  examMC = pick(ordenarPool(bankMC,temas,currentNivel), long);
+  examDEV = pick(ordenarPool(bankDEV,temas,currentNivel), long===5?1:long===10?3:4);
+  resVF=[];resMC=[];
+  document.getElementById('config').style.display='none';
+  document.getElementById('examen').style.display='block';
+  if(currentModo==='practica'){
+    document.getElementById('practBadge').style.display='inline-block';
+    document.getElementById('timer').style.display='none';
+  }else{
+    document.getElementById('practBadge').style.display='none';
+    document.getElementById('timer').style.display='block';
+    iniciarTimer();
+  }
+  renderExamen();
+});
+
+function iniciarTimer(){
+  restante = currentTiempo;
+  if(currentTiempo===0){document.getElementById('timer').style.display='none';return;}
+  intv=setInterval(()=>{
+    restante--;
+    const m=Math.floor(restante/60),s=restante%60;
+    document.getElementById('timer').innerHTML=`${m}:${s.toString().padStart(2,'0')}<span class="timer-label">Tiempo restante</span>`;
+    if(restante<=60) document.getElementById('timer').classList.add('danger');
+    else if(restante<=180) document.getElementById('timer').classList.add('warning');
+    if(restante<=0){clearInterval(intv);verResultados();}
+  },1000);
+}
+
+document.getElementById('btnVer').addEventListener('click',()=>{
+  if(finalizado) return;
+  if(currentModo==='examen' && contarRespondidas()< (examVF.length+examMC.length+examDEV.length) && !confirm('Hay preguntas sin responder. ¿Ver resultados igualmente?')) return;
+  verResultados();
+});
+
+function contarRespondidas(){
+  let n=0;
+  examVF.forEach((_,i)=>{if(document.querySelector(`input[name="vf${i}"]:checked`))n++;});
+  examMC.forEach((_,i)=>{if(document.querySelector(`input[name="mc${i}"]:checked`))n++;});
+  document.querySelectorAll('#sec3 textarea').forEach(t=>{if(t.value.trim())n++;});
+  return n;
+}
+
+function verResultados(){
+  finalizado=true;
+  if(intv) clearInterval(intv);
+  let vfOk=0,mcOk=0;
+  examVF.forEach((_,i)=>{if(gradeOne('vf',i)) vfOk++;});
+  examMC.forEach((_,i)=>{if(gradeOne('mc',i)) mcOk++;});
+  document.querySelectorAll('#sec3 .modelo').forEach(m=>m.style.display='block');
+  document.getElementById('scVF').textContent=`${vfOk}/${examVF.length}`;
+  document.getElementById('scMC').textContent=`${mcOk}/${examMC.length}`;
+  const totalOk=vfOk+mcOk;
+  const totalAut=examVF.length+examMC.length;
+  document.getElementById('scTotal').textContent=`${totalOk}/${totalAut}`;
+  let nota = totalAut ? (totalOk/totalAut*10) : 0;
+  if(currentNivel==='dificil'){
+    const fallos = totalAut - totalOk;
+    nota = Math.max(0, nota - fallos*0.5);
+    document.getElementById('penalInfo').textContent=`Nivel difícil: -0.5 por fallo.`;
+  }
+  document.getElementById('notaFinal').textContent=`Nota aproximada: ${nota.toFixed(1)}/10`;
+  document.getElementById('resultado').style.display='block';
+  document.getElementById('btnVer').style.display='none';
+  document.getElementById('btnRepetir').style.display='inline-block';
+  document.getElementById('btnReiniciar').style.display='inline-block';
+  document.getElementById('resultado').scrollIntoView({behavior:'smooth'});
+}
+
+document.getElementById('cerrarResult').addEventListener('click',()=>{document.getElementById('resultado').style.display='none';});
+
+document.getElementById('btnReiniciar').addEventListener('click',()=>location.reload());
+
+document.getElementById('btnRepetir').addEventListener('click',()=>{
+  // Simplified: just reload for new random
+  location.reload();
+});
+
+document.addEventListener('change',e=>{if(e.target.matches('input[type=radio], textarea')) actualizarProgreso();});
+document.addEventListener('input',e=>{if(e.target.matches('textarea')) actualizarProgreso();});
+
+// Practice mode immediate feedback (basic)
+document.addEventListener('change',e=>{
+  if(currentModo!=='practica' || finalizado) return;
+  if(e.target.matches('input[name^="vf"]')){
+    const i=parseInt(e.target.name.replace('vf',''));
+    gradeOne('vf',i);
+  }
+  if(e.target.matches('input[name^="mc"]')){
+    const i=parseInt(e.target.name.replace('mc',''));
+    gradeOne('mc',i);
+  }
+});
+</script>
+</body>
+</html>
