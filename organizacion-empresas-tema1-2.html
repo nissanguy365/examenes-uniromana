@@ -219,7 +219,7 @@ const PREGUNTAS = [
   var LETRAS=["A","B","C","D"];
   var i=0, results=[];
   function $(id){return document.getElementById(id);}
-  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&","<":"<",">":">","\"":"""}[c];});}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"\x26amp;","<":"\x26lt;",">":"\x26gt;","\"":"\x26quot;"}[c];});}
   var n=PREGUNTAS.length, c={mc:0,tf:0,open:0};
   PREGUNTAS.forEach(function(p){c[p.type]++;});
   $("total").textContent=n;
