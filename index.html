@@ -1,301 +1,1405 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Examen de práctica: Organización de Empresas, Tema I y II</title>
+<title>Examen de Organización de Empresas: Tema I y Tema II</title>
 <style>
+:root{--azul:#1F3864;--azul2:#2c4f8a;--rojo:#B5121B;--txt:#1b2433;--suave:#5d6a7e;--panel:#fff;--panel2:#f5f8fd;--borde:#d3dcea;--bg:#e8edf6;--verde:#157a41;--verdebg:#e6f4ec;--rojobg:#fbe9ea;--info:#eef3fd;--solo:#fff1d6;--solotx:#8a5a00;--clase:#e9e3fb;--clasetx:#4b2c91}
+html[data-theme="dark"]{--txt:#e8edf5;--suave:#a9b6cc;--panel:#152033;--panel2:#1b2942;--borde:#2b3c57;--bg:#0d1626;--verde:#46d07f;--verdebg:rgba(30,142,78,.18);--rojobg:rgba(181,18,27,.22);--info:rgba(108,140,200,.14);--solo:rgba(255,190,80,.18);--solotx:#ffd27a;--clase:rgba(150,120,240,.2);--clasetx:#cbb8ff}
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#f2f4f8;color:#1d2330;line-height:1.5}
-.wrap{max-width:680px;margin:0 auto;padding:16px}
-.card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:16px}
-h1{font-size:1.4rem;margin:0 0 8px}
-h2{font-size:1.15rem;margin:0 0 12px}
-.muted{color:#5b6475;font-size:.95rem}
-.btn{display:block;width:100%;padding:14px;border:0;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;margin-top:10px}
-.primary{background:#1f5fd1;color:#fff}
-.secondary{background:#e6ebf5;color:#1d2330}
-.opt{display:block;width:100%;text-align:left;padding:13px 14px;margin:8px 0;border:2px solid #d6dbe6;border-radius:10px;background:#fff;font-size:1rem;cursor:pointer;color:#1d2330}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;transition:background .3s,color .3s}
+header{background:linear-gradient(120deg,var(--azul),#16273f 60%,var(--rojo) 160%);color:#fff;padding:18px 16px;border-bottom:3px solid var(--rojo)}
+header h1{margin:0;font-size:1.35rem}
+header p{margin:4px 0 0;color:#dde4f0;font-size:.95rem}
+.hud{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--borde);padding:8px 16px}
+.hud-in{max-width:720px;margin:0 auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.timer{font-weight:700;background:var(--azul);color:#fff;border-radius:8px;padding:4px 12px;font-variant-numeric:tabular-nums}
+.timer.warn{background:#b07800}.timer.danger{background:var(--rojo)}
+.pz{flex:1;min-width:140px}
+.pt{font-size:.8rem;color:var(--suave)}
+.bar{height:10px;background:var(--panel2);border:1px solid var(--borde);border-radius:6px;overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--azul2),var(--rojo));transition:width .3s}
+.themebtn{border:1px solid var(--borde);background:var(--panel2);color:var(--txt);border-radius:20px;padding:6px 12px;font-size:.85rem;cursor:pointer}
+.wrap{max-width:720px;margin:0 auto;padding:14px}
+.card{background:var(--panel);border:1px solid var(--borde);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+h2{font-size:1.12rem;margin:0 0 10px}
+.muted{color:var(--suave);font-size:.92rem}
+.row{margin:14px 0;padding-bottom:12px;border-bottom:1px dashed var(--borde)}
+.row:last-of-type{border-bottom:0}
+.lbl{font-weight:700;margin-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--borde);border-radius:20px;padding:7px 12px;font-size:.92rem;cursor:pointer}
+.chip input{accent-color:var(--rojo)}
+.grp{font-size:.8rem;font-weight:700;color:var(--suave);margin:8px 0 4px;width:100%}
+select{font-size:.95rem;padding:8px;border-radius:8px;border:1px solid var(--borde);background:var(--panel2);color:var(--txt);width:100%}
+.btn{display:block;width:100%;padding:13px;border:0;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:10px}
+.primary{background:var(--rojo);color:#fff}
+.secondary{background:var(--azul);color:#fff}
+.light{background:var(--panel2);color:var(--txt);border:1px solid var(--borde)}
+.btn:disabled{opacity:.55;cursor:default}
+.two{display:flex;gap:10px}.two .btn{flex:1}
+.aviso{color:var(--rojo);font-weight:700;min-height:1.2em}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.tag{font-size:.75rem;padding:3px 9px;border-radius:20px;background:var(--panel2);border:1px solid var(--borde);font-weight:600}
+.tag.solo{background:var(--solo);color:var(--solotx);border-color:transparent}
+.tag.clase{background:var(--clase);color:var(--clasetx);border-color:transparent}
+.q{font-size:1.05rem;font-weight:700;margin:0 0 10px}
+.opt{display:block;width:100%;text-align:left;padding:12px 14px;margin:8px 0;border:2px solid var(--borde);border-radius:10px;background:var(--panel2);color:var(--txt);font-size:1rem;cursor:pointer}
+.opt.sel{border-color:var(--azul2)}
+.opt.ok{border-color:var(--verde);background:var(--verdebg)}
+.opt.bad{border-color:var(--rojo);background:var(--rojobg)}
 .opt:disabled{cursor:default}
-.opt.ok{border-color:#1b9e55;background:#e8f7ee}
-.opt.bad{border-color:#d33c3c;background:#fdecec}
-.bar{height:10px;background:#dde3ee;border-radius:6px;overflow:hidden;margin:8px 0 14px}
-.fill{height:100%;background:#1f5fd1;width:0;transition:width .3s}
-.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.tag{font-size:.78rem;padding:3px 9px;border-radius:20px;background:#e6ebf5;color:#33405a;font-weight:600}
-.tag.solo{background:#fff1d6;color:#8a5a00}
-.fb{margin-top:12px;padding:12px 14px;border-radius:10px;font-size:.97rem}
-.fb.ok{background:#e8f7ee;border-left:5px solid #1b9e55}
-.fb.bad{background:#fdecec;border-left:5px solid #d33c3c}
-.fb.model{background:#eef3fd;border-left:5px solid #1f5fd1}
-textarea{width:100%;min-height:130px;padding:12px;border:2px solid #d6dbe6;border-radius:10px;font-size:1rem;font-family:inherit}
-.row{display:flex;gap:10px}
-.row .btn{flex:1}
-.big{font-size:2.4rem;font-weight:800;color:#1f5fd1;margin:6px 0}
-.miss{border-top:1px solid #e3e7ef;padding:12px 0}
-.miss:first-child{border-top:0}
-table{width:100%;border-collapse:collapse;font-size:.92rem;margin-top:8px}
-td,th{border:1px solid #e3e7ef;padding:6px;text-align:center}
+.fb{margin-top:12px;padding:12px 14px;border-radius:10px;font-size:.95rem}
+.fb.ok{background:var(--verdebg);border-left:5px solid var(--verde)}
+.fb.bad{background:var(--rojobg);border-left:5px solid var(--rojo)}
+.fb.model{background:var(--info);border-left:5px solid var(--azul2)}
+textarea{width:100%;min-height:130px;padding:12px;border:2px solid var(--borde);border-radius:10px;font-size:1rem;font-family:inherit;background:var(--panel2);color:var(--txt)}
+.big{font-size:2.4rem;font-weight:800;color:var(--rojo);margin:4px 0}
+table{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:8px}
+td,th{border:1px solid var(--borde);padding:6px;text-align:center}
+.item{border-top:1px solid var(--borde);padding:12px 0}
+.item:first-child{border-top:0}
+.yours{font-size:.9rem;background:var(--panel2);border-radius:8px;padding:8px;white-space:pre-wrap}
 .hidden{display:none}
 </style>
 </head>
 <body>
+<header><div style="max-width:720px;margin:0 auto">
+<h1>Examen de Organización de Empresas</h1>
+<p>UNIROMANA, Administración de Empresas. Tema I y Tema II.</p>
+</div></header>
+<div class="hud"><div class="hud-in">
+  <span class="timer hidden" id="timer">45:00</span>
+  <div class="pz"><div class="pt" id="progTxt">Configura tu examen</div><div class="bar"><div class="fill" id="fill"></div></div></div>
+  <button class="themebtn" id="themeBtn">Modo oscuro</button>
+</div></div>
 <div class="wrap">
-  <div id="start" class="card">
-    <h1>Examen de práctica: Organización de Empresas</h1>
-    <p class="muted">UNIROMANA, Administración de Empresas. Tema I y Tema II.</p>
-    <p><b id="total"></b> preguntas: <span id="mix"></span>.</p>
-    <p class="muted">Todo sale solo del libro de la asignatura. Las preguntas con la etiqueta <span class="tag solo">Solo libro</span> tratan temas que no se vieron en clase.</p>
-    <p class="muted">En las de desarrollo escribe tu respuesta, mira la respuesta modelo y marca tú mismo si la tenías bien.</p>
-    <button class="btn primary" id="go">Empezar</button>
-  </div>
 
-  <div id="quiz" class="card hidden">
-    <div class="muted" id="count"></div>
-    <div class="bar"><div class="fill" id="fill"></div></div>
-    <div class="tags" id="tags"></div>
-    <h2 id="q"></h2>
-    <div id="area"></div>
-    <div id="fb"></div>
-    <button class="btn primary hidden" id="next">Siguiente</button>
-  </div>
+<div class="card" id="config">
+  <h2>Configura tu examen</h2>
+  <p class="muted">Banco de <b id="bankTotal"></b> preguntas: <span id="bankMix"></span>. Se eligen al azar según lo que marques. La etiqueta <span class="tag solo">Solo libro</span> indica temas que no se vieron en clase y <span class="tag clase">Contenido de clase</span> indica algo que no está en el libro.</p>
+  <div class="row"><div class="lbl">Modo</div><div class="chips">
+    <label class="chip"><input type="radio" name="modo" value="practica" checked> Práctica (corrección inmediata, sin reloj)</label>
+    <label class="chip"><input type="radio" name="modo" value="examen"> Examen (con tiempo, corrección al final)</label>
+  </div></div>
+  <div class="row"><div class="lbl">Nivel</div><div class="chips">
+    <label class="chip"><input type="radio" name="nivel" value="normal" checked> Normal</label>
+    <label class="chip"><input type="radio" name="nivel" value="dificil"> Difícil (resta 0,5 por fallo en la nota y un tercio menos de tiempo)</label>
+  </div></div>
+  <div class="row"><div class="lbl">Tema</div><div class="chips">
+    <label class="chip"><input type="checkbox" class="temaChk" value="Tema I" checked> Tema I</label>
+    <label class="chip"><input type="checkbox" class="temaChk" value="Tema II" checked> Tema II</label>
+  </div></div>
+  <div class="row"><div class="lbl">Subtemas</div><div class="chips" id="subs"></div></div>
+  <div class="row"><div class="lbl">Longitud</div>
+    <select id="longitud">
+      <option value="corta">Corta: 5 V/F, 5 selección múltiple, 1 desarrollo</option>
+      <option value="media" selected>Media: 10 V/F, 10 selección múltiple, 3 desarrollo</option>
+      <option value="larga">Larga: 15 V/F, 15 selección múltiple, 4 desarrollo</option>
+      <option value="todo">Completa: todas las preguntas elegidas</option>
+    </select></div>
+  <div class="row" id="rowTiempo"><div class="lbl">Tiempo (modo examen)</div>
+    <select id="tiempo">
+      <option value="1800">30 minutos</option>
+      <option value="2700" selected>45 minutos</option>
+      <option value="3600">60 minutos</option>
+      <option value="0">Sin límite</option>
+    </select></div>
+  <p class="aviso" id="aviso"></p>
+  <p class="muted" id="disp"></p>
+  <button class="btn primary" id="go">Comenzar</button>
+</div>
 
-  <div id="end" class="card hidden">
-    <h1>Resultado</h1>
+<div class="card hidden" id="quiz">
+  <div class="tags" id="tags"></div>
+  <p class="q" id="q"></p>
+  <div id="area"></div>
+  <div id="fb"></div>
+  <div class="two"><button class="btn light" id="prev">Anterior</button><button class="btn secondary" id="next">Siguiente</button></div>
+  <button class="btn light hidden" id="finishEarly">Terminar y ver resultados</button>
+</div>
+
+<div class="hidden" id="end">
+  <div class="card">
+    <h2>Resultado</h2>
     <div class="big" id="pct"></div>
     <p id="score"></p>
-    <div id="byTema"></div>
-    <h2 style="margin-top:18px">Preguntas falladas</h2>
-    <div id="missed"></div>
-    <button class="btn primary" id="again">Repetir examen</button>
+    <p id="nota"></p>
+    <div id="tabla"></div>
+    <p class="muted" id="pendOpen"></p>
+  </div>
+  <div class="card" id="openCard"><h2>Preguntas de desarrollo</h2><p class="muted">Compara tu respuesta con la modelo y marca si la tenías.</p><div id="openList"></div></div>
+  <div class="card"><h2>Preguntas falladas</h2><div id="missed"></div></div>
+  <div class="card">
+    <button class="btn primary" id="again">Repetir el mismo examen</button>
+    <button class="btn secondary" id="againMissed">Repetir solo las falladas</button>
+    <button class="btn light" id="reconf">Configurar otro examen</button>
   </div>
 </div>
+</div>
 <script>
-const PREGUNTAS = [
-{id:1, tema:"Tema I", type:"mc",
- q:"Según Sánchez (2010), ¿qué rasgo diferencia a una empresa (por ejemplo, una librería de barrio) de otras organizaciones como un centro de salud o un instituto?",
- options:["Que tiene empleados contratados","Que usa tecnología en sus procesos","Que busca obtener beneficios para sus propietarios, es decir, tiene ánimo de lucro","Que tiene un organigrama impreso"],
- answer:"C",
- exp:"El libro define la empresa como una organización especial cuyo fin es obtener beneficios para sus dueños vendiendo productos y servicios que pide el mercado; ese ánimo de lucro la separa de otras organizaciones. Fuente: 1.2 Conceptos esenciales.", model:""},
-{id:2, tema:"Tema I", type:"tf",
- q:"Un concesionario de vehículos encaja en la definición general del libro: la empresa es un conjunto de factores de producción organizados bajo la dirección y el control del empresario, cuya función es producir y cuyo objetivo depende del sistema económico en que se encuentra.",
- options:["Verdadero","Falso"], answer:"V",
- exp:"Es la definición general que da el libro. Los factores (tierra, trabajo y capital) se traducen en materiales, mano de obra y maquinaria, coordinados por el empresario. Producir incluye también servicios, como vender y reparar vehículos. Fuente: 1.2 Conceptos esenciales.", model:""},
-{id:3, tema:"Tema I", type:"mc",
- q:"La dueña de una librería paga alquiler, salarios y compra libros antes de saber si los venderá. Según la teoría de Knight (1921), ¿qué característica define mejor al empresario y justifica su beneficio?",
- options:["Su capacidad de asumir riesgos; el beneficio es el pago por asumirlos","Su capacidad de innovar con nuevas combinaciones de factores","Su deseo de independencia y autonomía","Ser el titular jurídico de la actividad en nombre propio"],
- answer:"A",
- exp:"Para Knight el empresario adelanta las rentas a los demás factores sin conocer el resultado, y el beneficio extraordinario compensa ese riesgo. La innovación es la idea de Schumpeter. Fuente: 2.1.1 El empresario: enfoques.", model:""},
-{id:4, tema:"Tema I", type:"mc",
- q:"Un fabricante lanza el primer vehículo con un sistema de carga nunca visto y gana mucho más que sus rivales durante un tiempo. Según Schumpeter, ¿cómo se explica ese beneficio?",
- options:["Es el salario de dirección que le corresponde al empresario","Es la compensación por el riesgo que asumió al adelantar salarios","Proviene del factor tierra que controla la empresa","La innovación le da un monopolio temporal que desaparece cuando otros la imitan"],
- answer:"D",
- exp:"Para Schumpeter el verdadero empresario innova; la innovación genera un monopolio temporal con beneficio extraordinario, que se diluye cuando los imitadores copian y el mercado vuelve al equilibrio. Fuente: 2.1.1 El empresario: enfoques.", model:""},
-{id:5, tema:"Tema I", type:"tf",
- q:"Según los rasgos que presenta Veciana (1989), el empresario se caracteriza por una propensión a asumir riesgos excesivos.",
- options:["Verdadero","Falso"], answer:"F",
- exp:"Veciana habla de propensión a asumir riesgos moderados, junto con deseo de independencia, iniciativa hacia el logro, control interno y capacidad de enfrentar la incertidumbre. Fuente: 2.1.1 El empresario: enfoques.", model:""},
-{id:6, tema:"Tema I", type:"open",
- q:"Compara la visión del empresario de Knight (1921) con la de Schumpeter. Usa como ejemplo a alguien que abre una librería.",
- options:[], answer:"",
- exp:"Fuente: 2.1.1 El empresario: enfoques.",
- model:"Knight pone el centro en el riesgo: el empresario adelanta pagos (alquiler, salarios, compra de libros) sin saber si venderá, y el beneficio extraordinario es la compensación por asumir ese riesgo, aparte del salario de dirección. Schumpeter pone el centro en la innovación: el verdadero empresario crea nuevas combinaciones de factores (nuevos productos, procesos o mejoras). Si la librería inventa un servicio nuevo, obtiene un monopolio temporal y un beneficio extra hasta que otras librerías la imitan. Para Schumpeter el empresario es el motor del desarrollo económico; para Knight lo que lo define es soportar la incertidumbre."},
-{id:7, tema:"Tema II", type:"mc",
- q:"¿Cuál de estas NO es una de las 5 funciones administrativas de Fayol (1916)?",
- options:["Prever","Coordinar","Presupuestar","Controlar"],
- answer:"C",
- exp:"Las 5 funciones de Fayol son prever, organizar, dirigir, coordinar y controlar. La presupuestación aparece en el libro como la última etapa del proceso de planificación, no como función de Fayol. Fuente: 2.1 Concepto de propiedad, dirección y gobierno de empresa.", model:""},
-{id:8, tema:"Tema II", type:"mc",
- q:"En el proceso de planificación de 8 etapas, ¿qué etapa va justo después de la fijación de objetivos?",
- options:["Determinación de líneas de acción","Establecimiento de premisas","Elección de una línea de acción","Presupuestación"],
- answer:"B",
- exp:"El orden es: diagnóstico, fijación de objetivos, establecimiento de premisas, determinación de líneas de acción, evaluación, elección, planes derivados y presupuestación. Las premisas son pronósticos sobre variables que la empresa no controla. Fuente: 2.2 El proceso de planificación.", model:""},
-{id:9, tema:"Tema II", type:"mc",
- q:"Un fabricante produce un vehículo estándar en grandes series para un mercado amplio, aprovechando economías de escala y el efecto experiencia para tener costes menores que sus rivales. ¿Qué estrategia competitiva de Porter sigue?",
- options:["Liderazgo en costes","Diferenciación","Diversificación","Integración vertical"],
- answer:"A",
- exp:"El liderazgo en costes busca producir con un coste inferior al de los competidores, normalmente con producto estandarizado, grandes series, economías de escala y efecto experiencia. Diversificación e integración vertical son modelos de desarrollo corporativo, no estrategias competitivas. Fuente: 2.2.6.1 Liderazgo en costes.", model:""},
-{id:10, tema:"Tema II", type:"mc",
- q:"Según Hofer (1978), ¿qué componente de la estrategia concreta la extensión de la línea de productos y la variedad de mercados en que opera la empresa (por ejemplo, si un fabricante vende solo motos o también autos y camiones)?",
- options:["Sinergia","Ventaja competitiva","Despliegue de recursos","Alcance"],
- answer:"D",
- exp:"El alcance (ámbito o dominio) indica qué productos y qué mercados cubre la empresa y debe reflejar su misión. Fuente: 2.2.2 Componentes de la estrategia.", model:""},
-{id:11, tema:"Tema II", type:"mc",
- q:"El departamento de marketing de una cadena de librerías decide cómo usar sus propios recursos para apoyar la estrategia del negocio. ¿A qué nivel de estrategia corresponde?",
- options:["Estrategia corporativa","Estrategia funcional","Estrategia de negocio o competitiva","Estrategia de cartera"],
- answer:"B",
- exp:"La estrategia funcional abarca las actividades para desplegar los recursos de un departamento concreto y debe sostener la estrategia de negocio. Fuente: 2.2.3 Niveles de la estrategia.", model:""},
-{id:12, tema:"Tema II", type:"mc",
- q:"La estrategia corporativa distingue entre modelo de desarrollo y modo de desarrollo. ¿Cuál de estas opciones es un MODO de desarrollo?",
- options:["Integración vertical","Diversificación","Alianza estratégica","Expansión internacional"],
- answer:"C",
- exp:"Modelo de desarrollo: especialización, integración vertical, diversificación y expansión internacional (hacia dónde crecer). Modo de desarrollo: interno, fusiones, adquisiciones y alianzas estratégicas (cómo crecer). Fuente: 2.2.4 Estrategia corporativa.", model:""},
-{id:13, tema:"Tema II", type:"mc",
- q:"Un fabricante de vehículos se fusiona con la empresa que le suministra los motores. ¿Qué tipo de fusión es?",
- options:["Horizontal","Vertical","Conglomerado","Orgánica"],
- answer:"B",
- exp:"La fusión vertical une empresas que hacen actividades sucesivas de la misma cadena de valor. La horizontal une competidores con las mismas líneas de producto y el conglomerado une negocios sin relación. Fuente: 2.2.4.1 Modos de desarrollo.", model:""},
-{id:14, tema:"Tema II", type:"mc",
- q:"Sobre diferenciación y segmentación, ¿qué afirmación es correcta según el libro?",
- options:["La segmentación consiste en elegir el mercado en que se compite; dentro de cualquier segmento se puede competir por diferenciación o por costes","Diferenciación y segmentación son la misma estrategia con distinto nombre","La segmentación es una de las tres estrategias competitivas de Porter y sustituye a la diferenciación","Solo las empresas grandes pueden segmentar; las pequeñas solo pueden diferenciarse"],
- answer:"A",
- exp:"El libro advierte que es un error común confundirlas. Segmentar es elegir dónde competir; diferenciarse es ofrecer atributos que el cliente percibe como únicos. Fuente: 2.2.6.2 Diferenciación.", model:""},
-{id:15, tema:"Tema II", type:"mc",
- q:"Frente al modelo de ajuste de Harvard, ¿qué proponen Hamel y Prahalad (1989)?",
- options:["Acoplar exactamente recursos y entorno para eliminar las debilidades","Basar la estrategia solo en la historia de la empresa","Elegir siempre la estrategia de liderazgo en costes","Un desajuste entre los recursos actuales y unos objetivos futuros muy ambiciosos, que impulse la innovación y la mejora continua"],
- answer:"D",
- exp:"El modelo de Harvard busca encajar fortalezas con oportunidades. Hamel y Prahalad sostienen que eso no basta en entornos muy cambiantes y proponen el desajuste: metas ambiciosas que empujen a innovar y asumir riesgos. Fuente: 2.2.1.1 Factores que condicionan la estrategia.", model:""},
-{id:16, tema:"Tema II", type:"tf",
- q:"Hoy las funciones de Fayol se agrupan en 4 funciones directivas: planificación, organización, gestión (o dirección) y control.",
- options:["Verdadero","Falso"], answer:"V",
- exp:"El libro indica que las tareas que definió Fayol se agrupan actualmente en esas 4 funciones. Fuente: 2.1 y 2.1.3 Funciones de la dirección.", model:""},
-{id:17, tema:"Tema II", type:"tf",
- q:"El proceso de planificación estratégica se separa en tres elementos: formulación, puesta en práctica y control.",
- options:["Verdadero","Falso"], answer:"V",
- exp:"Así lo plantea el libro. La formulación define qué lograr, dónde competir y cómo competir. Fuente: 2.2.1 La planificación estratégica.", model:""},
-{id:18, tema:"Tema II", type:"tf",
- q:"La decisión de construir una nueva planta de ensamblaje de vehículos es un despliegue de recursos fácil de revertir en el corto plazo.",
- options:["Verdadero","Falso"], answer:"F",
- exp:"Las decisiones de asignación de recursos tienen tres rasgos: marcan el futuro de la organización, implican muchos fondos y son inalterables a corto plazo (muchos recursos son coste hundido). Fuente: 2.2.1 La planificación estratégica.", model:""},
-{id:19, tema:"Tema II", type:"tf",
- q:"Según Selznick (1957), la historia de la empresa forma su carácter y condiciona su estrategia, hasta el punto de que puede dejarla rehén de su propio pasado.",
- options:["Verdadero","Falso"], answer:"V",
- exp:"La historia de la empresa es uno de los factores que condicionan la estrategia. Fuente: 2.2.1.1 Factores que condicionan la estrategia.", model:""},
-{id:20, tema:"Tema II", type:"tf",
- q:"Sinergia y economías de alcance significan lo mismo.",
- options:["Verdadero","Falso"], answer:"F",
- exp:"Hay economías de alcance cuando hacer varias actividades juntas cuesta menos que hacerlas por separado (se mide en coste). Hay sinergia cuando el beneficio conjunto supera la suma de los beneficios por separado: el todo vale más que las partes. El libro incluso las lista como razones distintas para fusionarse. Fuente: 1.6.1, 2.2.2 y 2.2.4.1.", model:""},
-{id:21, tema:"Tema II", type:"tf",
- q:"Cuando una cadena de librerías compra el control de otra empresa que cotiza en bolsa, la operación se llama Oferta Pública de Adquisición (OPA).",
- options:["Verdadero","Falso"], answer:"V",
- exp:"La adquisición es hacerse con el control de una empresa comprando parte o todo su capital; si la adquirida cotiza en bolsa, se denomina OPA. Fuente: 2.2.4.1 Modos de desarrollo.", model:""},
-{id:22, tema:"Tema II", type:"tf",
- q:"Los empleados de una librería que almuerzan juntos y se pasan información por su cuenta, sin que nadie lo haya diseñado, forman parte de la organización formal.",
- options:["Verdadero","Falso"], answer:"F",
- exp:"Eso es organización informal: relaciones espontáneas, no definidas de forma previa ni deliberada. La formal es la estructura y los procesos establecidos a propósito. Fuente: 2.3.1 Elementos de la organización.", model:""},
-{id:23, tema:"Tema II", type:"tf", tag:"Solo libro",
- q:"La estrategia de enfoque de Porter tiene dos variantes: enfoque con diferenciación y enfoque con liderazgo en costes.",
- options:["Verdadero","Falso"], answer:"V",
- exp:"El enfoque atiende un segmento concreto, distinto del resto del sector, y puede hacerlo diferenciándose o con costes bajos. Fuente: 2.2.6.3 El enfoque.", model:""},
-{id:24, tema:"Tema II", type:"open",
- q:"Explica en orden las 8 etapas del proceso de planificación, usando el ejemplo de una librería que quiere abrir una segunda sucursal.",
- options:[], answer:"",
- exp:"Fuente: 2.2 El proceso de planificación.",
- model:"1) Diagnóstico de la situación de partida: analizar cómo está hoy la librería y qué oportunidades hay. 2) Fijación de objetivos: asequibles, jerarquizados (con responsable), cuantificados y conocidos por todos; por ejemplo, abrir la sucursal en 12 meses y vender cierta cantidad. 3) Establecimiento de premisas: pronósticos sobre variables que no controla, como la demanda de libros en la zona. 4) Determinación de líneas de acción: varias opciones, como alquilar un local o comprar una librería existente. 5) Evaluación de cada línea: puntos fuertes y débiles, dificultades y riesgos. 6) Elección de la línea más conveniente. 7) Elaboración de planes derivados: subplanes de personal, compras o publicidad. 8) Presupuestación: cuantificar los planes para seguir los logros y detectar desviaciones."},
-{id:25, tema:"Tema II", type:"open",
- q:"Enumera los 6 factores que condicionan la estrategia según el libro y explica el de las relaciones con los stakeholders.",
- options:[], answer:"",
- exp:"Fuente: 2.2.1.1 Factores que condicionan la estrategia.",
- model:"Los factores son: a) oportunidades y amenazas del entorno (general y específico); b) fortalezas y debilidades de la empresa; c) la historia de la empresa (Selznick); d) las relaciones con los stakeholders; e) la personalidad, los valores y las ambiciones de los directivos; f) la cultura empresarial. Sobre los stakeholders: la empresa acepta que depende de sus grupos de interés, y cuanto más importante es la participación de un grupo, más depende la empresa de él y más poder potencial tiene ese grupo sobre sus decisiones. Por ejemplo, para un concesionario de vehículos, el fabricante que le suministra los autos tiene mucha influencia en su estrategia."},
-{id:26, tema:"Tema II", type:"open",
- q:"Explica los 4 componentes de la estrategia según Hofer (1978), con un ejemplo de una empresa de vehículos.",
- options:[], answer:"",
- exp:"Fuente: 2.2.2 Componentes de la estrategia.",
- model:"Alcance: qué productos y mercados cubre la empresa (solo motos, o también autos y camiones) y debe reflejar su misión. Despliegue de recursos: cómo consigue y asigna sus recursos financieros y humanos, que son limitados, entre negocios, mercados y departamentos para superar a los rivales. Ventaja competitiva: lo que hace sustancialmente mejor que sus rivales al crear valor para el cliente, con costes menores o un producto diferenciado; es sostenible si no la pueden copiar ni sustituir. Sinergia: cuando sus negocios o recursos se complementan y el conjunto vale más que la suma de las partes; por ejemplo, usar su red de talleres para dar servicio a autos y a camiones a la vez."},
-{id:27, tema:"Tema II", type:"open",
- q:"Describe los 3 niveles de la estrategia (corporativa, de negocio y funcional) con el ejemplo de un grupo que tiene un negocio de concesionarios de vehículos y otro de librerías.",
- options:[], answer:"",
- exp:"Fuente: 2.2.3 Niveles de la estrategia y 2.2.4 Estrategia corporativa.",
- model:"Corporativa: decide la mezcla de negocios del grupo (seguir con concesionarios y librerías, entrar en otros o salir), administra la cartera, aprovecha las sinergias entre negocios y reparte los recursos; según Andrews (1971) es el patrón de decisiones que fija objetivos, políticas y planes y define en qué negocios estará la empresa. De negocio o competitiva: decide cómo competir a largo plazo en cada negocio, por ejemplo si las librerías compiten por precio o por servicio, y fija su alcance. Funcional: lo que hace cada departamento (marketing, compras, finanzas) con sus recursos para apoyar la estrategia de negocio. Los tres niveles deben ser coherentes entre sí."},
-{id:28, tema:"Tema II", type:"open",
- q:"Diferencia fusión de adquisición, nombra los 3 tipos de fusión y da al menos 3 razones para fusionarse o adquirir.",
- options:[], answer:"",
- exp:"Fuente: 2.2.4.1 Modos de desarrollo.",
- model:"En una fusión, dos o más empresas se unen y todas o alguna se liquida, y sus socios y patrimonios pasan a una sola sociedad, existente o nueva. En una adquisición, una empresa toma el control de otra comprando parte o todo su capital, a cambio de dinero, acciones u otros títulos; si la adquirida cotiza en bolsa es una OPA. Tipos: horizontal (competidores con las mismas líneas de producto, como dos fabricantes de autos), vertical (actividades sucesivas de la misma cadena de valor, como un fabricante de autos y su proveedor de motores) y conglomerado (negocios sin relación, como una librería y un fabricante de camiones). Razones: aumentar el poder de mercado, aumentar la cuota de mercado, llegar más rápido al mercado, lograr economías de escala y alcance, no aumentar la capacidad de la industria, entrar en mercados extranjeros, lograr sinergias, reducir costes y riesgos de desarrollar productos nuevos, y usar fondos ociosos."},
-{id:29, tema:"Tema II", type:"open",
- q:"¿Qué problemas debe resolver a la vez la organización (técnico y social)? Nombra además los 4 elementos de la organización según Nadler y Tushman (1988).",
- options:[], answer:"",
- exp:"Fuente: 2.3 Concepto de organización y 2.3.1 Elementos de la organización.",
- model:"El problema técnico consiste en hacer posible la estrategia, permitir los flujos de trabajo y la agregación de valor, facilitar un control eficiente por la dirección y crear puestos de trabajo factibles y medibles. El problema social tiene que ver con las relaciones de poder, las relaciones entre grupos, la compatibilidad entre los valores de las personas y los de la organización, y el ambiente de trabajo y la cultura. Los 4 elementos de Nadler y Tushman son: el trabajo (la actividad básica), las personas, la organización formal (estructura y procesos establecidos a propósito) y la organización informal (relaciones espontáneas). Por ejemplo, en una librería el trabajo es vender y asesorar; el horario y los puestos son la organización formal; la amistad entre vendedores es la organización informal."},
-{id:30, tema:"Tema II", type:"open", tag:"Solo libro",
- q:"Explica las 5 partes de la organización según Iborra et al. (2014), aplicadas a una fábrica de vehículos.",
- options:[], answer:"",
- exp:"Fuente: 2.3.2 Partes de la organización.",
- model:"Núcleo de operaciones: quienes hacen el trabajo básico de transformar inputs en productos, como comprar piezas, ensamblar los vehículos, venderlos y mantener las máquinas. Ápice estratégico o alta dirección: los directivos de mayor nivel; supervisan la empresa como un todo, gestionan su relación con el entorno, fijan la misión, los objetivos a largo plazo y la estrategia. Línea media: los mandos entre el ápice y el núcleo, como el jefe de planta; transmiten órdenes hacia abajo e información hacia arriba y resuelven conflictos. Tecnoestructura (solo libro): técnicos y analistas que planifican, diseñan y mejoran los procesos de trabajo, por ejemplo ingenieros que estandarizan la línea de montaje; buscan automatizar (formalización). Staff de apoyo: servicios para otras partes de la empresa que van más allá del núcleo, como asesoría jurídica, seguridad, limpieza o cafetería."}
+const BANCO = [
+ {
+  "id": 1,
+  "tema": "Tema I",
+  "type": "mc",
+  "q": "Según Sánchez (2010), ¿qué rasgo diferencia a una empresa (por ejemplo, una librería de barrio) de otras organizaciones como un centro de salud o un instituto?",
+  "options": [
+   "Que tiene empleados contratados",
+   "Que usa tecnología en sus procesos",
+   "Que busca obtener beneficios para sus propietarios, es decir, tiene ánimo de lucro",
+   "Que tiene un organigrama impreso"
+  ],
+  "answer": "C",
+  "exp": "El libro define la empresa como una organización especial cuyo fin es obtener beneficios para sus dueños vendiendo productos y servicios que pide el mercado; ese ánimo de lucro la separa de otras organizaciones. Fuente: 1.2 Conceptos esenciales.",
+  "model": "",
+  "sub": 1,
+  "origen": "nuevo"
+ },
+ {
+  "id": 2,
+  "tema": "Tema I",
+  "type": "tf",
+  "q": "Un concesionario de vehículos encaja en la definición general del libro: la empresa es un conjunto de factores de producción organizados bajo la dirección y el control del empresario, cuya función es producir y cuyo objetivo depende del sistema económico en que se encuentra.",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "Es la definición general que da el libro. Los factores (tierra, trabajo y capital) se traducen en materiales, mano de obra y maquinaria, coordinados por el empresario. Producir incluye también servicios, como vender y reparar vehículos. Fuente: 1.2 Conceptos esenciales.",
+  "model": "",
+  "sub": 1,
+  "origen": "nuevo"
+ },
+ {
+  "id": 3,
+  "tema": "Tema I",
+  "type": "mc",
+  "q": "La dueña de una librería paga alquiler, salarios y compra libros antes de saber si los venderá. Según la teoría de Knight (1921), ¿qué característica define mejor al empresario y justifica su beneficio?",
+  "options": [
+   "Su capacidad de asumir riesgos; el beneficio es el pago por asumirlos",
+   "Su capacidad de innovar con nuevas combinaciones de factores",
+   "Su deseo de independencia y autonomía",
+   "Ser el titular jurídico de la actividad en nombre propio"
+  ],
+  "answer": "A",
+  "exp": "Para Knight el empresario adelanta las rentas a los demás factores sin conocer el resultado, y el beneficio extraordinario compensa ese riesgo. La innovación es la idea de Schumpeter. Fuente: 2.1.1 El empresario: enfoques.",
+  "model": "",
+  "sub": 2,
+  "origen": "nuevo"
+ },
+ {
+  "id": 4,
+  "tema": "Tema I",
+  "type": "mc",
+  "q": "Un fabricante lanza el primer vehículo con un sistema de carga nunca visto y gana mucho más que sus rivales durante un tiempo. Según Schumpeter, ¿cómo se explica ese beneficio?",
+  "options": [
+   "Es el salario de dirección que le corresponde al empresario",
+   "Es la compensación por el riesgo que asumió al adelantar salarios",
+   "Proviene del factor tierra que controla la empresa",
+   "La innovación le da un monopolio temporal que desaparece cuando otros la imitan"
+  ],
+  "answer": "D",
+  "exp": "Para Schumpeter el verdadero empresario innova; la innovación genera un monopolio temporal con beneficio extraordinario, que se diluye cuando los imitadores copian y el mercado vuelve al equilibrio. Fuente: 2.1.1 El empresario: enfoques.",
+  "model": "",
+  "sub": 2,
+  "origen": "nuevo"
+ },
+ {
+  "id": 5,
+  "tema": "Tema I",
+  "type": "tf",
+  "q": "Según los rasgos que presenta Veciana (1989), el empresario se caracteriza por una propensión a asumir riesgos excesivos.",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "F",
+  "exp": "Veciana habla de propensión a asumir riesgos moderados, junto con deseo de independencia, iniciativa hacia el logro, control interno y capacidad de enfrentar la incertidumbre. Fuente: 2.1.1 El empresario: enfoques.",
+  "model": "",
+  "sub": 2,
+  "origen": "nuevo"
+ },
+ {
+  "id": 6,
+  "tema": "Tema I",
+  "type": "open",
+  "q": "Compara la visión del empresario de Knight (1921) con la de Schumpeter. Usa como ejemplo a alguien que abre una librería.",
+  "options": [],
+  "answer": "",
+  "exp": "Fuente: 2.1.1 El empresario: enfoques.",
+  "model": "Knight pone el centro en el riesgo: el empresario adelanta pagos (alquiler, salarios, compra de libros) sin saber si venderá, y el beneficio extraordinario es la compensación por asumir ese riesgo, aparte del salario de dirección. Schumpeter pone el centro en la innovación: el verdadero empresario crea nuevas combinaciones de factores (nuevos productos, procesos o mejoras). Si la librería inventa un servicio nuevo, obtiene un monopolio temporal y un beneficio extra hasta que otras librerías la imitan. Para Schumpeter el empresario es el motor del desarrollo económico; para Knight lo que lo define es soportar la incertidumbre.",
+  "sub": 2,
+  "origen": "nuevo"
+ },
+ {
+  "id": 7,
+  "tema": "Tema II",
+  "type": "mc",
+  "q": "¿Cuál de estas NO es una de las 5 funciones administrativas de Fayol (1916)?",
+  "options": [
+   "Prever",
+   "Coordinar",
+   "Presupuestar",
+   "Controlar"
+  ],
+  "answer": "C",
+  "exp": "Las 5 funciones de Fayol son prever, organizar, dirigir, coordinar y controlar. La presupuestación aparece en el libro como la última etapa del proceso de planificación, no como función de Fayol. Fuente: 2.1 Concepto de propiedad, dirección y gobierno de empresa.",
+  "model": "",
+  "sub": 3,
+  "origen": "nuevo"
+ },
+ {
+  "id": 8,
+  "tema": "Tema II",
+  "type": "mc",
+  "q": "En el proceso de planificación de 8 etapas, ¿qué etapa va justo después de la fijación de objetivos?",
+  "options": [
+   "Determinación de líneas de acción",
+   "Establecimiento de premisas",
+   "Elección de una línea de acción",
+   "Presupuestación"
+  ],
+  "answer": "B",
+  "exp": "El orden es: diagnóstico, fijación de objetivos, establecimiento de premisas, determinación de líneas de acción, evaluación, elección, planes derivados y presupuestación. Las premisas son pronósticos sobre variables que la empresa no controla. Fuente: 2.2 El proceso de planificación.",
+  "model": "",
+  "sub": 4,
+  "origen": "nuevo"
+ },
+ {
+  "id": 9,
+  "tema": "Tema II",
+  "type": "mc",
+  "q": "Un fabricante produce un vehículo estándar en grandes series para un mercado amplio, aprovechando economías de escala y el efecto experiencia para tener costes menores que sus rivales. ¿Qué estrategia competitiva de Porter sigue?",
+  "options": [
+   "Liderazgo en costes",
+   "Diferenciación",
+   "Diversificación",
+   "Integración vertical"
+  ],
+  "answer": "A",
+  "exp": "El liderazgo en costes busca producir con un coste inferior al de los competidores, normalmente con producto estandarizado, grandes series, economías de escala y efecto experiencia. Diversificación e integración vertical son modelos de desarrollo corporativo, no estrategias competitivas. Fuente: 2.2.6.1 Liderazgo en costes.",
+  "model": "",
+  "sub": 11,
+  "origen": "nuevo"
+ },
+ {
+  "id": 10,
+  "tema": "Tema II",
+  "type": "mc",
+  "q": "Según Hofer (1978), ¿qué componente de la estrategia concreta la extensión de la línea de productos y la variedad de mercados en que opera la empresa (por ejemplo, si un fabricante vende solo motos o también autos y camiones)?",
+  "options": [
+   "Sinergia",
+   "Ventaja competitiva",
+   "Despliegue de recursos",
+   "Alcance"
+  ],
+  "answer": "D",
+  "exp": "El alcance (ámbito o dominio) indica qué productos y qué mercados cubre la empresa y debe reflejar su misión. Fuente: 2.2.2 Componentes de la estrategia.",
+  "model": "",
+  "sub": 7,
+  "origen": "nuevo"
+ },
+ {
+  "id": 11,
+  "tema": "Tema II",
+  "type": "mc",
+  "q": "El departamento de marketing de una cadena de librerías decide cómo usar sus propios recursos para apoyar la estrategia del negocio. ¿A qué nivel de estrategia corresponde?",
+  "options": [
+   "Estrategia corporativa",
+   "Estrategia funcional",
+   "Estrategia de negocio o competitiva",
+   "Estrategia de cartera"
+  ],
+  "answer": "B",
+  "exp": "La estrategia funcional abarca las actividades para desplegar los recursos de un departamento concreto y debe sostener la estrategia de negocio. Fuente: 2.2.3 Niveles de la estrategia.",
+  "model": "",
+  "sub": 8,
+  "origen": "nuevo"
+ },
+ {
+  "id": 12,
+  "tema": "Tema II",
+  "type": "mc",
+  "q": "La estrategia corporativa distingue entre modelo de desarrollo y modo de desarrollo. ¿Cuál de estas opciones es un MODO de desarrollo?",
+  "options": [
+   "Integración vertical",
+   "Diversificación",
+   "Alianza estratégica",
+   "Expansión internacional"
+  ],
+  "answer": "C",
+  "exp": "Modelo de desarrollo: especialización, integración vertical, diversificación y expansión internacional (hacia dónde crecer). Modo de desarrollo: interno, fusiones, adquisiciones y alianzas estratégicas (cómo crecer). Fuente: 2.2.4 Estrategia corporativa.",
+  "model": "",
+  "sub": 9,
+  "origen": "nuevo"
+ },
+ {
+  "id": 13,
+  "tema": "Tema II",
+  "type": "mc",
+  "q": "Un fabricante de vehículos se fusiona con la empresa que le suministra los motores. ¿Qué tipo de fusión es?",
+  "options": [
+   "Horizontal",
+   "Vertical",
+   "Conglomerado",
+   "Orgánica"
+  ],
+  "answer": "B",
+  "exp": "La fusión vertical une empresas que hacen actividades sucesivas de la misma cadena de valor. La horizontal une competidores con las mismas líneas de producto y el conglomerado une negocios sin relación. Fuente: 2.2.4.1 Modos de desarrollo.",
+  "model": "",
+  "sub": 10,
+  "origen": "nuevo"
+ },
+ {
+  "id": 14,
+  "tema": "Tema II",
+  "type": "mc",
+  "q": "Sobre diferenciación y segmentación, ¿qué afirmación es correcta según el libro?",
+  "options": [
+   "La segmentación consiste en elegir el mercado en que se compite; dentro de cualquier segmento se puede competir por diferenciación o por costes",
+   "Diferenciación y segmentación son la misma estrategia con distinto nombre",
+   "La segmentación es una de las tres estrategias competitivas de Porter y sustituye a la diferenciación",
+   "Solo las empresas grandes pueden segmentar; las pequeñas solo pueden diferenciarse"
+  ],
+  "answer": "A",
+  "exp": "El libro advierte que es un error común confundirlas. Segmentar es elegir dónde competir; diferenciarse es ofrecer atributos que el cliente percibe como únicos. Fuente: 2.2.6.2 Diferenciación.",
+  "model": "",
+  "sub": 11,
+  "origen": "nuevo"
+ },
+ {
+  "id": 15,
+  "tema": "Tema II",
+  "type": "mc",
+  "q": "Frente al modelo de ajuste de Harvard, ¿qué proponen Hamel y Prahalad (1989)?",
+  "options": [
+   "Acoplar exactamente recursos y entorno para eliminar las debilidades",
+   "Basar la estrategia solo en la historia de la empresa",
+   "Elegir siempre la estrategia de liderazgo en costes",
+   "Un desajuste entre los recursos actuales y unos objetivos futuros muy ambiciosos, que impulse la innovación y la mejora continua"
+  ],
+  "answer": "D",
+  "exp": "El modelo de Harvard busca encajar fortalezas con oportunidades. Hamel y Prahalad sostienen que eso no basta en entornos muy cambiantes y proponen el desajuste: metas ambiciosas que empujen a innovar y asumir riesgos. Fuente: 2.2.1.1 Factores que condicionan la estrategia.",
+  "model": "",
+  "sub": 6,
+  "origen": "nuevo"
+ },
+ {
+  "id": 16,
+  "tema": "Tema II",
+  "type": "tf",
+  "q": "Hoy las funciones de Fayol se agrupan en 4 funciones directivas: planificación, organización, gestión (o dirección) y control.",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "El libro indica que las tareas que definió Fayol se agrupan actualmente en esas 4 funciones. Fuente: 2.1 y 2.1.3 Funciones de la dirección.",
+  "model": "",
+  "sub": 3,
+  "origen": "nuevo"
+ },
+ {
+  "id": 17,
+  "tema": "Tema II",
+  "type": "tf",
+  "q": "El proceso de planificación estratégica se separa en tres elementos: formulación, puesta en práctica y control.",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "Así lo plantea el libro. La formulación define qué lograr, dónde competir y cómo competir. Fuente: 2.2.1 La planificación estratégica.",
+  "model": "",
+  "sub": 5,
+  "origen": "nuevo"
+ },
+ {
+  "id": 18,
+  "tema": "Tema II",
+  "type": "tf",
+  "q": "La decisión de construir una nueva planta de ensamblaje de vehículos es un despliegue de recursos fácil de revertir en el corto plazo.",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "F",
+  "exp": "Las decisiones de asignación de recursos tienen tres rasgos: marcan el futuro de la organización, implican muchos fondos y son inalterables a corto plazo (muchos recursos son coste hundido). Fuente: 2.2.1 La planificación estratégica.",
+  "model": "",
+  "sub": 5,
+  "origen": "nuevo"
+ },
+ {
+  "id": 19,
+  "tema": "Tema II",
+  "type": "tf",
+  "q": "Según Selznick (1957), la historia de la empresa forma su carácter y condiciona su estrategia, hasta el punto de que puede dejarla rehén de su propio pasado.",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "La historia de la empresa es uno de los factores que condicionan la estrategia. Fuente: 2.2.1.1 Factores que condicionan la estrategia.",
+  "model": "",
+  "sub": 6,
+  "origen": "nuevo"
+ },
+ {
+  "id": 20,
+  "tema": "Tema II",
+  "type": "tf",
+  "q": "Sinergia y economías de alcance significan lo mismo.",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "F",
+  "exp": "Hay economías de alcance cuando hacer varias actividades juntas cuesta menos que hacerlas por separado (se mide en coste). Hay sinergia cuando el beneficio conjunto supera la suma de los beneficios por separado: el todo vale más que las partes. El libro incluso las lista como razones distintas para fusionarse. Fuente: 1.6.1, 2.2.2 y 2.2.4.1.",
+  "model": "",
+  "sub": 7,
+  "origen": "nuevo"
+ },
+ {
+  "id": 21,
+  "tema": "Tema II",
+  "type": "tf",
+  "q": "Cuando una cadena de librerías compra el control de otra empresa que cotiza en bolsa, la operación se llama Oferta Pública de Adquisición (OPA).",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "La adquisición es hacerse con el control de una empresa comprando parte o todo su capital; si la adquirida cotiza en bolsa, se denomina OPA. Fuente: 2.2.4.1 Modos de desarrollo.",
+  "model": "",
+  "sub": 10,
+  "origen": "nuevo"
+ },
+ {
+  "id": 22,
+  "tema": "Tema II",
+  "type": "tf",
+  "q": "Los empleados de una librería que almuerzan juntos y se pasan información por su cuenta, sin que nadie lo haya diseñado, forman parte de la organización formal.",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "F",
+  "exp": "Eso es organización informal: relaciones espontáneas, no definidas de forma previa ni deliberada. La formal es la estructura y los procesos establecidos a propósito. Fuente: 2.3.1 Elementos de la organización.",
+  "model": "",
+  "sub": 12,
+  "origen": "nuevo"
+ },
+ {
+  "id": 23,
+  "tema": "Tema II",
+  "type": "tf",
+  "tag": "Solo libro",
+  "q": "La estrategia de enfoque de Porter tiene dos variantes: enfoque con diferenciación y enfoque con liderazgo en costes.",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "El enfoque atiende un segmento concreto, distinto del resto del sector, y puede hacerlo diferenciándose o con costes bajos. Fuente: 2.2.6.3 El enfoque.",
+  "model": "",
+  "sub": 11,
+  "origen": "nuevo"
+ },
+ {
+  "id": 24,
+  "tema": "Tema II",
+  "type": "open",
+  "q": "Explica en orden las 8 etapas del proceso de planificación, usando el ejemplo de una librería que quiere abrir una segunda sucursal.",
+  "options": [],
+  "answer": "",
+  "exp": "Fuente: 2.2 El proceso de planificación.",
+  "model": "1) Diagnóstico de la situación de partida: analizar cómo está hoy la librería y qué oportunidades hay. 2) Fijación de objetivos: asequibles, jerarquizados (con responsable), cuantificados y conocidos por todos; por ejemplo, abrir la sucursal en 12 meses y vender cierta cantidad. 3) Establecimiento de premisas: pronósticos sobre variables que no controla, como la demanda de libros en la zona. 4) Determinación de líneas de acción: varias opciones, como alquilar un local o comprar una librería existente. 5) Evaluación de cada línea: puntos fuertes y débiles, dificultades y riesgos. 6) Elección de la línea más conveniente. 7) Elaboración de planes derivados: subplanes de personal, compras o publicidad. 8) Presupuestación: cuantificar los planes para seguir los logros y detectar desviaciones.",
+  "sub": 4,
+  "origen": "nuevo"
+ },
+ {
+  "id": 25,
+  "tema": "Tema II",
+  "type": "open",
+  "q": "Enumera los 6 factores que condicionan la estrategia según el libro y explica el de las relaciones con los stakeholders.",
+  "options": [],
+  "answer": "",
+  "exp": "Fuente: 2.2.1.1 Factores que condicionan la estrategia.",
+  "model": "Los factores son: a) oportunidades y amenazas del entorno (general y específico); b) fortalezas y debilidades de la empresa; c) la historia de la empresa (Selznick); d) las relaciones con los stakeholders; e) la personalidad, los valores y las ambiciones de los directivos; f) la cultura empresarial. Sobre los stakeholders: la empresa acepta que depende de sus grupos de interés, y cuanto más importante es la participación de un grupo, más depende la empresa de él y más poder potencial tiene ese grupo sobre sus decisiones. Por ejemplo, para un concesionario de vehículos, el fabricante que le suministra los autos tiene mucha influencia en su estrategia.",
+  "sub": 6,
+  "origen": "nuevo"
+ },
+ {
+  "id": 26,
+  "tema": "Tema II",
+  "type": "open",
+  "q": "Explica los 4 componentes de la estrategia según Hofer (1978), con un ejemplo de una empresa de vehículos.",
+  "options": [],
+  "answer": "",
+  "exp": "Fuente: 2.2.2 Componentes de la estrategia.",
+  "model": "Alcance: qué productos y mercados cubre la empresa (solo motos, o también autos y camiones) y debe reflejar su misión. Despliegue de recursos: cómo consigue y asigna sus recursos financieros y humanos, que son limitados, entre negocios, mercados y departamentos para superar a los rivales. Ventaja competitiva: lo que hace sustancialmente mejor que sus rivales al crear valor para el cliente, con costes menores o un producto diferenciado; es sostenible si no la pueden copiar ni sustituir. Sinergia: cuando sus negocios o recursos se complementan y el conjunto vale más que la suma de las partes; por ejemplo, usar su red de talleres para dar servicio a autos y a camiones a la vez.",
+  "sub": 7,
+  "origen": "nuevo"
+ },
+ {
+  "id": 27,
+  "tema": "Tema II",
+  "type": "open",
+  "q": "Describe los 3 niveles de la estrategia (corporativa, de negocio y funcional) con el ejemplo de un grupo que tiene un negocio de concesionarios de vehículos y otro de librerías.",
+  "options": [],
+  "answer": "",
+  "exp": "Fuente: 2.2.3 Niveles de la estrategia y 2.2.4 Estrategia corporativa.",
+  "model": "Corporativa: decide la mezcla de negocios del grupo (seguir con concesionarios y librerías, entrar en otros o salir), administra la cartera, aprovecha las sinergias entre negocios y reparte los recursos; según Andrews (1971) es el patrón de decisiones que fija objetivos, políticas y planes y define en qué negocios estará la empresa. De negocio o competitiva: decide cómo competir a largo plazo en cada negocio, por ejemplo si las librerías compiten por precio o por servicio, y fija su alcance. Funcional: lo que hace cada departamento (marketing, compras, finanzas) con sus recursos para apoyar la estrategia de negocio. Los tres niveles deben ser coherentes entre sí.",
+  "sub": 8,
+  "origen": "nuevo"
+ },
+ {
+  "id": 28,
+  "tema": "Tema II",
+  "type": "open",
+  "q": "Diferencia fusión de adquisición, nombra los 3 tipos de fusión y da al menos 3 razones para fusionarse o adquirir.",
+  "options": [],
+  "answer": "",
+  "exp": "Fuente: 2.2.4.1 Modos de desarrollo.",
+  "model": "En una fusión, dos o más empresas se unen y todas o alguna se liquida, y sus socios y patrimonios pasan a una sola sociedad, existente o nueva. En una adquisición, una empresa toma el control de otra comprando parte o todo su capital, a cambio de dinero, acciones u otros títulos; si la adquirida cotiza en bolsa es una OPA. Tipos: horizontal (competidores con las mismas líneas de producto, como dos fabricantes de autos), vertical (actividades sucesivas de la misma cadena de valor, como un fabricante de autos y su proveedor de motores) y conglomerado (negocios sin relación, como una librería y un fabricante de camiones). Razones: aumentar el poder de mercado, aumentar la cuota de mercado, llegar más rápido al mercado, lograr economías de escala y alcance, no aumentar la capacidad de la industria, entrar en mercados extranjeros, lograr sinergias, reducir costes y riesgos de desarrollar productos nuevos, y usar fondos ociosos.",
+  "sub": 10,
+  "origen": "nuevo"
+ },
+ {
+  "id": 29,
+  "tema": "Tema II",
+  "type": "open",
+  "q": "¿Qué problemas debe resolver a la vez la organización (técnico y social)? Nombra además los 4 elementos de la organización según Nadler y Tushman (1988).",
+  "options": [],
+  "answer": "",
+  "exp": "Fuente: 2.3 Concepto de organización y 2.3.1 Elementos de la organización.",
+  "model": "El problema técnico consiste en hacer posible la estrategia, permitir los flujos de trabajo y la agregación de valor, facilitar un control eficiente por la dirección y crear puestos de trabajo factibles y medibles. El problema social tiene que ver con las relaciones de poder, las relaciones entre grupos, la compatibilidad entre los valores de las personas y los de la organización, y el ambiente de trabajo y la cultura. Los 4 elementos de Nadler y Tushman son: el trabajo (la actividad básica), las personas, la organización formal (estructura y procesos establecidos a propósito) y la organización informal (relaciones espontáneas). Por ejemplo, en una librería el trabajo es vender y asesorar; el horario y los puestos son la organización formal; la amistad entre vendedores es la organización informal.",
+  "sub": 12,
+  "origen": "nuevo"
+ },
+ {
+  "id": 30,
+  "tema": "Tema II",
+  "type": "open",
+  "tag": "Solo libro",
+  "q": "Explica las 5 partes de la organización según Iborra et al. (2014), aplicadas a una fábrica de vehículos.",
+  "options": [],
+  "answer": "",
+  "exp": "Fuente: 2.3.2 Partes de la organización.",
+  "model": "Núcleo de operaciones: quienes hacen el trabajo básico de transformar inputs en productos, como comprar piezas, ensamblar los vehículos, venderlos y mantener las máquinas. Ápice estratégico o alta dirección: los directivos de mayor nivel; supervisan la empresa como un todo, gestionan su relación con el entorno, fijan la misión, los objetivos a largo plazo y la estrategia. Línea media: los mandos entre el ápice y el núcleo, como el jefe de planta; transmiten órdenes hacia abajo e información hacia arriba y resuelven conflictos. Tecnoestructura (solo libro): técnicos y analistas que planifican, diseñan y mejoran los procesos de trabajo, por ejemplo ingenieros que estandarizan la línea de montaje; buscan automatizar (formalización). Staff de apoyo: servicios para otras partes de la empresa que van más allá del núcleo, como asesoría jurídica, seguridad, limpieza o cafetería.",
+  "sub": 13,
+  "origen": "nuevo"
+ },
+ {
+  "id": 31,
+  "tema": "Tema I",
+  "sub": 2,
+  "q": "Schumpeter (1911) considera que el auténtico empresario es aquel que genera innovaciones significativas que impulsan el desarrollo económico.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "Correcto. Schumpeter prioriza la innovación, a diferencia de Knight. Fuente: 2.1.1 El empresario: enfoques.",
+  "model": ""
+ },
+ {
+  "id": 32,
+  "tema": "Tema I",
+  "sub": 2,
+  "q": "Según Knight (1921), el beneficio residual del empresario se justifica principalmente por la innovación temporal de monopolio.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "F",
+  "exp": "Falso. Knight lo justifica por el riesgo de adelantar pagos sin conocer el resultado. Eso es más cercano a Schumpeter. Fuente: 2.1.1 El empresario: enfoques.",
+  "model": ""
+ },
+ {
+  "id": 33,
+  "tema": "Tema II",
+  "sub": 3,
+  "q": "Fayol (1916) identificó 5 funciones: prever, organizar, dirigir, coordinar y controlar.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "Correcto. Las 4 actuales (planificar, organizar, gestionar, controlar) son una agrupación moderna. Fuente: 2.1 y 2.1.3 Funciones de la dirección.",
+  "model": ""
+ },
+ {
+  "id": 34,
+  "tema": "Tema II",
+  "sub": 4,
+  "q": "La presupuestación es la primera etapa del proceso de planificación.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "F",
+  "exp": "Falso. Es la última (etapa 8). La primera es el diagnóstico. Fuente: 2.2 El proceso de planificación.",
+  "model": ""
+ },
+ {
+  "id": 35,
+  "tema": "Tema II",
+  "sub": 6,
+  "q": "El libro identifica 6 factores que condicionan la estrategia, incluyendo las relaciones con los stakeholders.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "Correcto: entorno, fortalezas/debilidades, historia (Selznick), stakeholders, valores de directivos y cultura. Fuente: 2.2.1.1 Factores que condicionan la estrategia.",
+  "model": ""
+ },
+ {
+  "id": 36,
+  "tema": "Tema II",
+  "sub": 6,
+  "q": "Hamel y Prahalad (1989) defienden el modelo de ajuste de Harvard como el más adecuado para entornos cambiantes.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "F",
+  "exp": "Falso. Ellos proponen un desajuste deliberado para impulsar innovación. Fuente: 2.2.1.1 Factores que condicionan la estrategia.",
+  "model": ""
+ },
+ {
+  "id": 37,
+  "tema": "Tema II",
+  "sub": 7,
+  "q": "Según Hofer (1978), los componentes de la estrategia son alcance, despliegue de recursos, ventaja competitiva y sinergia.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "Correcto. Fuente: 2.2.2 Componentes de la estrategia.",
+  "model": ""
+ },
+ {
+  "id": 38,
+  "tema": "Tema II",
+  "sub": 7,
+  "q": "La sinergia se produce cuando el todo es menor que la suma de las partes.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "F",
+  "exp": "Falso. El todo es mayor que la suma de las partes. Fuente: 2.2.2 Componentes de la estrategia.",
+  "model": ""
+ },
+ {
+  "id": 39,
+  "tema": "Tema II",
+  "sub": 8,
+  "q": "En empresas diversificadas existen tres niveles de estrategia: corporativa, de negocio y funcional.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "Correcto. Fuente: 2.2.3 Niveles de la estrategia.",
+  "model": ""
+ },
+ {
+  "id": 40,
+  "tema": "Tema II",
+  "sub": 8,
+  "q": "La estrategia funcional es la que administra la cartera de negocios.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "F",
+  "exp": "Falso. Eso corresponde a la corporativa. Fuente: 2.2.3 Niveles de la estrategia.",
+  "model": ""
+ },
+ {
+  "id": 41,
+  "tema": "Tema II",
+  "sub": 9,
+  "q": "Andrews (1971) define la estrategia corporativa como el modelo de decisiones que determina objetivos, políticas y la variedad de negocios.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "Correcto. Fuente: 2.2.4 Estrategia corporativa.",
+  "model": ""
+ },
+ {
+  "id": 42,
+  "tema": "Tema II",
+  "sub": 9,
+  "q": "El modelo de desarrollo responde a 'cómo' crecer, mientras que los modos responden a 'hacia dónde'.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "F",
+  "exp": "Falso. Es al revés: modelo = hacia dónde (especialización, diversificación...); modos = cómo (interno, fusión...). Fuente: 2.2.4 Estrategia corporativa.",
+  "model": ""
+ },
+ {
+  "id": 43,
+  "tema": "Tema II",
+  "sub": 10,
+  "q": "Una fusión horizontal se da entre empresas que compiten con las mismas líneas de productos.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "Correcto. Ejemplo visto en clase: Exxon y Mobil (1999). Fuente: 2.2.4.1 Modos de desarrollo.",
+  "model": ""
+ },
+ {
+  "id": 44,
+  "tema": "Tema II",
+  "sub": 10,
+  "q": "El desarrollo interno puede ser inducido (planificado) o autónomo (espontáneo).",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "Correcto según el libro. Fuente: 2.2.4.1 Modos de desarrollo.",
+  "model": ""
+ },
+ {
+  "id": 45,
+  "tema": "Tema II",
+  "sub": 11,
+  "q": "La diferenciación de Porter consiste en fabricar al menor coste posible.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "F",
+  "exp": "Falso. Eso es liderazgo en costes. La diferenciación busca atributos únicos valorados por el cliente. Fuente: 2.2.6 Estrategia competitiva.",
+  "model": ""
+ },
+ {
+  "id": 46,
+  "tema": "Tema II",
+  "sub": 11,
+  "q": "No se debe confundir diferenciación con segmentación, porque la segmentación elige el mercado y la diferenciación es cómo competir.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "Correcto según el libro. Fuente: 2.2.6 Estrategia competitiva.",
+  "model": ""
+ },
+ {
+  "id": 47,
+  "tema": "Tema II",
+  "sub": 12,
+  "q": "El problema técnico de la organización se relaciona con flujos de trabajo, control y puestos medibles, mientras que el social con relaciones de poder y cultura.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "Correcto. Fuente: 2.3 y 2.3.1 Elementos de la organización.",
+  "model": ""
+ },
+ {
+  "id": 48,
+  "tema": "Tema II",
+  "sub": 13,
+  "q": "El núcleo de operaciones realiza las funciones de transformación de inputs en outputs y ventas.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "Correcto. Fuente: 2.3.2 Partes de la organización.",
+  "model": ""
+ },
+ {
+  "id": 49,
+  "tema": "Tema II",
+  "sub": 13,
+  "q": "La tecnoestructura y el staff de apoyo son lo mismo.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "F",
+  "exp": "Falso. Tecnoestructura planifica y mejora procesos; staff de apoyo presta servicios como asesoría o cafetería. Fuente: 2.3.2 Partes de la organización.",
+  "model": "",
+  "tag": "Solo libro"
+ },
+ {
+  "id": 50,
+  "tema": "Tema II",
+  "sub": 13,
+  "q": "El CEO es el máximo responsable de la alta dirección y se encarga de la estrategia general.",
+  "origen": "anterior",
+  "type": "tf",
+  "options": [
+   "Verdadero",
+   "Falso"
+  ],
+  "answer": "V",
+  "exp": "Correcto (contenido de clase). COO opera el día a día; CMO el marketing. Fuente: contenido de clase; no aparece en el libro.",
+  "model": "",
+  "tag": "Contenido de clase"
+ },
+ {
+  "id": 51,
+  "tema": "Tema II",
+  "sub": 3,
+  "q": "Las 4 funciones actuales de la dirección son:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "Prever, organizar, dirigir, controlar",
+   "Planificar, organizar, gestionar, controlar",
+   "Organizar, coordinar, dirigir, prever",
+   "Planificar, coordinar, gestionar, dirigir"
+  ],
+  "answer": "B",
+  "exp": "Agrupación moderna de las 5 de Fayol. Fuente: 2.1 y 2.1.3 Funciones de la dirección.",
+  "model": ""
+ },
+ {
+  "id": 52,
+  "tema": "Tema II",
+  "sub": 4,
+  "q": "¿Cuántas etapas tiene el proceso de planificación según el libro?",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "5",
+   "6",
+   "8",
+   "10"
+  ],
+  "answer": "C",
+  "exp": "Diagnóstico, objetivos, premisas, líneas, evaluación, elección, planes derivados, presupuestación. Fuente: 2.2 El proceso de planificación.",
+  "model": ""
+ },
+ {
+  "id": 53,
+  "tema": "Tema II",
+  "sub": 5,
+  "q": "Los rasgos de las decisiones de recursos estratégicos son:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "Reversibles y de bajo coste",
+   "Marcan el futuro, muchos fondos, inalterables a corto plazo",
+   "Solo operativas",
+   "Sin impacto en el futuro"
+  ],
+  "answer": "B",
+  "exp": "Según el libro. Fuente: 2.2.1 La planificación estratégica.",
+  "model": ""
+ },
+ {
+  "id": 54,
+  "tema": "Tema II",
+  "sub": 6,
+  "q": "Selznick (1957) se relaciona principalmente con:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "El modelo de ajuste",
+   "La historia de la empresa y su carácter",
+   "Los stakeholders",
+   "La cultura empresarial"
+  ],
+  "answer": "B",
+  "exp": "La historia puede dejar a la empresa rehén de su pasado. Fuente: 2.2.1.1 Factores que condicionan la estrategia.",
+  "model": ""
+ },
+ {
+  "id": 55,
+  "tema": "Tema II",
+  "sub": 7,
+  "q": "Los 4 componentes de Hofer (1978) son:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "Misión, visión, objetivos, planes",
+   "Alcance, despliegue de recursos, ventaja competitiva, sinergia",
+   "Formulación, implementación, control, evaluación",
+   "Corporativa, negocio, funcional, operativa"
+  ],
+  "answer": "B",
+  "exp": "Exactamente esos cuatro. Fuente: 2.2.2 Componentes de la estrategia.",
+  "model": ""
+ },
+ {
+  "id": 56,
+  "tema": "Tema II",
+  "sub": 8,
+  "q": "La estrategia que administra la cartera de negocios y aprovecha sinergias es:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "Funcional",
+   "De negocio",
+   "Corporativa",
+   "Operativa"
+  ],
+  "answer": "C",
+  "exp": "La corporativa. Fuente: 2.2.3 Niveles de la estrategia.",
+  "model": ""
+ },
+ {
+  "id": 57,
+  "tema": "Tema II",
+  "sub": 9,
+  "q": "Según Andrews (1971), la estrategia corporativa es:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "Solo la elección de fusiones",
+   "El modelo de decisiones que determina objetivos y variedad de negocios",
+   "Solo los modos de desarrollo",
+   "Únicamente la asignación de recursos"
+  ],
+  "answer": "B",
+  "exp": "Definición del libro. Fuente: 2.2.4 Estrategia corporativa.",
+  "model": ""
+ },
+ {
+  "id": 58,
+  "tema": "Tema II",
+  "sub": 10,
+  "q": "La fusión de Exxon y Mobil (1999) es un ejemplo de:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "Vertical",
+   "Horizontal",
+   "Conglomerado",
+   "Interna"
+  ],
+  "answer": "B",
+  "exp": "Horizontal: competidores del mismo sector. Fuente: contenido de clase; no aparece en el libro.",
+  "model": "",
+  "tag": "Contenido de clase"
+ },
+ {
+  "id": 59,
+  "tema": "Tema II",
+  "sub": 10,
+  "q": "Disney con Pixar (2006) y Marvel (2009) son ejemplos de:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "Desarrollo interno inducido",
+   "Fusiones horizontales",
+   "Adquisiciones que aportan capacidades creativas",
+   "Conglomerados no relacionados"
+  ],
+  "answer": "C",
+  "exp": "Adquisiciones estratégicas (contenido de clase). Fuente: contenido de clase; no aparece en el libro.",
+  "model": "",
+  "tag": "Contenido de clase"
+ },
+ {
+  "id": 60,
+  "tema": "Tema II",
+  "sub": 10,
+  "q": "El desarrollo interno autónomo se caracteriza por:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "Ser planificado solo en I+D",
+   "Surgir de forma espontánea en cualquier departamento",
+   "Requerir siempre una fusión",
+   "Ser solo vertical"
+  ],
+  "answer": "B",
+  "exp": "Según el libro. Fuente: 2.2.4.1 Modos de desarrollo.",
+  "model": ""
+ },
+ {
+  "id": 61,
+  "tema": "Tema II",
+  "sub": 11,
+  "q": "Un riesgo del liderazgo en costes es:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "La facilidad de imitación por empresas con recursos",
+   "La imposibilidad de estandarizar",
+   "El alto coste siempre",
+   "La segmentación obligatoria"
+  ],
+  "answer": "A",
+  "exp": "El libro lo señala. Fuente: 2.2.6 Estrategia competitiva.",
+  "model": ""
+ },
+ {
+  "id": 62,
+  "tema": "Tema II",
+  "sub": 12,
+  "q": "Los 4 elementos de Nadler y Tushman (1988) son:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "Trabajo, personas, formal e informal",
+   "Núcleo, alta dirección, línea media, staff",
+   "Técnico, social, estrategia, estructura",
+   "Formal, informal, técnico, cultural"
+  ],
+  "answer": "A",
+  "exp": "Exactamente esos. Fuente: 2.3 y 2.3.1 Elementos de la organización.",
+  "model": ""
+ },
+ {
+  "id": 63,
+  "tema": "Tema II",
+  "sub": 12,
+  "q": "La organización informal se define como:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "El organigrama deliberado",
+   "Las relaciones espontáneas no planificadas",
+   "Solo la tecnoestructura",
+   "El staff de apoyo"
+  ],
+  "answer": "B",
+  "exp": "Resultado de necesidades de interacción social. Fuente: 2.3 y 2.3.1 Elementos de la organización.",
+  "model": ""
+ },
+ {
+  "id": 64,
+  "tema": "Tema II",
+  "sub": 13,
+  "q": "El ápice estratégico o alta dirección se encarga principalmente de:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "Transformar inputs en outputs",
+   "Supervisar la organización como un todo, relaciones con el entorno y definir la estrategia",
+   "Prestar servicios de cafetería",
+   "Mejorar procesos técnicos"
+  ],
+  "answer": "B",
+  "exp": "Según el libro. Fuente: 2.3.2 Partes de la organización.",
+  "model": ""
+ },
+ {
+  "id": 65,
+  "tema": "Tema II",
+  "sub": 13,
+  "q": "El CEO, COO y CMO corresponden a:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "Núcleo de operaciones",
+   "Alta dirección (C-suite)",
+   "Tecnoestructura",
+   "Staff de apoyo"
+  ],
+  "answer": "B",
+  "exp": "CEO estrategia, COO operaciones, CMO marketing (clase). Fuente: contenido de clase; no aparece en el libro.",
+  "model": "",
+  "tag": "Contenido de clase"
+ },
+ {
+  "id": 66,
+  "tema": "Tema II",
+  "sub": 13,
+  "q": "La tecnoestructura se dedica a:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "Vender productos",
+   "Planificar, diseñar y mejorar procesos de trabajo",
+   "Servicios de limpieza",
+   "Tomar decisiones estratégicas finales"
+  ],
+  "answer": "B",
+  "exp": "Técnicos y analistas que formalizan procesos. Fuente: 2.3.2 Partes de la organización.",
+  "model": "",
+  "tag": "Solo libro"
+ },
+ {
+  "id": 67,
+  "tema": "Tema II",
+  "sub": 7,
+  "q": "La sinergia permite:",
+  "origen": "anterior",
+  "type": "mc",
+  "options": [
+   "Que el todo sea igual a la suma de las partes",
+   "Usar la ventaja de un mercado en otro",
+   "Eliminar recursos",
+   "Reducir el alcance"
+  ],
+  "answer": "B",
+  "exp": "Cuando los negocios se refuerzan mutuamente. Fuente: 2.2.2 Componentes de la estrategia.",
+  "model": ""
+ },
+ {
+  "id": 68,
+  "tema": "Tema II",
+  "sub": 10,
+  "q": "Compara desarrollo interno (inducido vs autónomo) con fusión y adquisición. Incluye los tipos (horizontal, vertical, conglomerado) y los ejemplos de Exxon-Mobil y Disney-Pixar/Marvel. Aplícalo a un taller de vehículos que quiere entrar en eléctricos.",
+  "origen": "anterior",
+  "type": "open",
+  "options": [],
+  "answer": "",
+  "exp": "Fuente: 2.2.4.1 Modos de desarrollo; los ejemplos de Exxon, Mobil, Disney, Pixar y Marvel son de clase y no están en el libro.",
+  "model": "Interno: inducido (planificado, ej. I+D) o autónomo (espontáneo). Captura valor propio. Fusión: operación jurídica que une patrimonios. Adquisición: compra de control (OPA si cotiza). Horizontal (Exxon-Mobil 1999, competidores), vertical (cadena de valor), conglomerado (no relacionados). Disney-Pixar 2006 y Marvel 2009: adquisiciones de capacidades creativas. Taller: formar técnicos (interno) vs comprar un taller de eléctricos (adquisición horizontal o vertical).",
+  "tag": "Contenido de clase"
+ },
+ {
+  "id": 69,
+  "tema": "Tema II",
+  "sub": 11,
+  "q": "Explica las tres estrategias competitivas de Porter, sus principales riesgos y por qué no se debe confundir diferenciación con segmentación.",
+  "origen": "anterior",
+  "type": "open",
+  "options": [],
+  "answer": "",
+  "exp": "Fuente: 2.2.6 Estrategia competitiva.",
+  "model": "Liderazgo en costes: costes más bajos, economías de escala; riesgos: imitación fácil, obsesión que reduce calidad percibida, paradoja de la productividad. Diferenciación: atributos únicos valorados; riesgos: diferenciar lo que el cliente no valora, precio excesivo, fácil imitación. Enfoque: segmento específico (puede ser en costes o diferenciación). No confundir: segmentación elige el mercado objetivo; diferenciación es la forma de competir dentro de él.",
+  "tag": "Solo libro"
+ }
 ];
-
 (function(){
-  var TIPOS={mc:"Selección múltiple",tf:"Verdadero o falso",open:"Desarrollo"};
-  var LETRAS=["A","B","C","D"];
-  var i=0, results=[];
-  function $(id){return document.getElementById(id);}
-  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"\x26amp;","<":"\x26lt;",">":"\x26gt;","\"":"\x26quot;"}[c];});}
-  var n=PREGUNTAS.length, c={mc:0,tf:0,open:0};
-  PREGUNTAS.forEach(function(p){c[p.type]++;});
-  $("total").textContent=n;
-  $("mix").textContent=c.mc+" de selección múltiple, "+c.tf+" de verdadero o falso y "+c.open+" de desarrollo";
+var SUBS={1:"Concepto de empresa",2:"El empresario",3:"Funciones de dirección",4:"Las 8 etapas de planificación",5:"Planificación estratégica",6:"Factores de la estrategia",7:"Componentes de Hofer",8:"Niveles de la estrategia",9:"Estrategia corporativa",10:"Modos de desarrollo",11:"Estrategias de Porter",12:"Organización",13:"Partes de la organización y C-suite"};
+var TIPOS={mc:"Selección múltiple",tf:"Verdadero o falso",open:"Desarrollo"};
+var LONG={corta:[5,5,1],media:[10,10,3],larga:[15,15,4]};
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"\x26amp;","<":"\x26lt;",">":"\x26gt;","\"":"\x26quot;"}[c];});}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
 
-  function show(id){["start","quiz","end"].forEach(function(s){$(s).classList.toggle("hidden",s!==id);});window.scrollTo(0,0);}
-  function render(){
-    var p=PREGUNTAS[i];
-    $("count").textContent="Pregunta "+(i+1)+" de "+n;
-    $("fill").style.width=(i/n*100)+"%";
-    var t='<span class="tag">'+p.tema+'</span><span class="tag">'+TIPOS[p.type]+'</span>';
-    if(p.tag) t+='<span class="tag solo">'+esc(p.tag)+'</span>';
-    $("tags").innerHTML=t;
-    $("q").textContent=p.q;
-    $("fb").innerHTML="";
-    $("next").classList.add("hidden");
-    $("next").textContent=(i===n-1)?"Ver resultado":"Siguiente";
-    var a=$("area"); a.innerHTML="";
-    if(p.type==="open"){
-      var ta=document.createElement("textarea"); ta.placeholder="Escribe tu respuesta aquí"; a.appendChild(ta);
-      var b=document.createElement("button"); b.className="btn secondary"; b.textContent="Ver respuesta modelo";
-      b.onclick=function(){
-        b.disabled=true;
-        $("fb").innerHTML='<div class="fb model"><b>Respuesta modelo:</b><br>'+esc(p.model)+'<br><br><span class="muted">'+esc(p.exp)+'</span></div>'+
-          '<p class="muted" style="margin-bottom:0">¿Tu respuesta cubría lo esencial?</p><div class="row"><button class="btn secondary" id="yes">Sí, la tenía</button><button class="btn secondary" id="no">Me faltó</button></div>';
-        $("yes").onclick=function(){grade(true);}; $("no").onclick=function(){grade(false);};
-      };
-      a.appendChild(b);
-    } else {
-      var keys=p.type==="mc"?LETRAS:["V","F"];
-      p.options.forEach(function(o,k){
-        var btn=document.createElement("button"); btn.className="opt";
-        btn.textContent=(p.type==="mc"?keys[k]+") ":"")+o;
-        btn.onclick=function(){answer(keys[k],btn,keys);};
-        a.appendChild(btn);
-      });
+/* tema oscuro */
+function setTheme(t){document.documentElement.setAttribute("data-theme",t);$("themeBtn").textContent=t==="dark"?"Modo claro":"Modo oscuro";}
+setTheme(store("tema")==="dark"?"dark":"light");
+$("themeBtn").onclick=function(){var t=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";setTheme(t);store("tema",t);};
+
+/* configuración */
+var cnt={mc:0,tf:0,open:0};BANCO.forEach(function(p){cnt[p.type]++;});
+$("bankTotal").textContent=BANCO.length;
+$("bankMix").textContent=cnt.mc+" de selección múltiple, "+cnt.tf+" de verdadero o falso y "+cnt.open+" de desarrollo";
+var subsHtml="";
+["Tema I","Tema II"].forEach(function(t){
+  subsHtml+='<div class="grp">'+t+'</div>';
+  Object.keys(SUBS).forEach(function(k){
+    var temaK=(+k<=2)?"Tema I":"Tema II"; if(temaK!==t)return;
+    var n=BANCO.filter(function(p){return p.sub===+k;}).length;
+    subsHtml+='<label class="chip"><input type="checkbox" class="subChk" data-tema="'+t+'" value="'+k+'" checked> '+SUBS[k]+' ('+n+')</label>';
+  });
+});
+$("subs").innerHTML=subsHtml;
+function subChks(){return Array.prototype.slice.call(document.querySelectorAll(".subChk"));}
+Array.prototype.forEach.call(document.querySelectorAll(".temaChk"),function(c){
+  c.onchange=function(){subChks().forEach(function(s){if(s.dataset.tema===c.value)s.checked=c.checked;});updDisp();};
+});
+document.addEventListener("change",function(e){
+  if(e.target.classList&&e.target.classList.contains("subChk")){
+    ["Tema I","Tema II"].forEach(function(t){var ss=subChks().filter(function(s){return s.dataset.tema===t;});document.querySelector('.temaChk[value="'+t+'"]').checked=ss.some(function(s){return s.checked;});});
+  }
+  if(e.target.name==="modo")$("rowTiempo").style.display=modo()==="examen"?"":"none";
+  updDisp();
+});
+function modo(){return document.querySelector('input[name="modo"]:checked').value;}
+function nivel(){return document.querySelector('input[name="nivel"]:checked').value;}
+function pool(){var s=subChks().filter(function(c){return c.checked;}).map(function(c){return +c.value;});return BANCO.filter(function(p){return s.indexOf(p.sub)>=0;});}
+function updDisp(){var p=pool();var c={mc:0,tf:0,open:0};p.forEach(function(x){c[x.type]++;});$("disp").textContent="Disponibles con tu selección: "+p.length+" ("+c.tf+" V/F, "+c.mc+" selección múltiple, "+c.open+" desarrollo).";}
+$("rowTiempo").style.display="none";updDisp();
+
+/* estado */
+var exam=[],i=0,cur="practica",lvl="normal",timer=null,left=0,done=false;
+function build(list){
+  return list.map(function(p){
+    var o={p:p,given:null,text:"",self:null,shown:false,order:null};
+    if(p.type==="mc")o.order=shuffle([0,1,2,3]);
+    return o;
+  });
+}
+function pickExam(){
+  var p=pool();
+  if($("longitud").value==="todo")return shuffle(p.slice());
+  var L=LONG[$("longitud").value],out=[];
+  [["tf",L[0]],["mc",L[1]],["open",L[2]]].forEach(function(x){out=out.concat(shuffle(p.filter(function(q){return q.type===x[0];})).slice(0,x[1]));});
+  return out;
+}
+function start(list){
+  exam=build(list);i=0;done=false;cur=modo();lvl=nivel();
+  $("config").classList.add("hidden");$("end").classList.add("hidden");$("quiz").classList.remove("hidden");
+  if(timer)clearInterval(timer);
+  var secs=+$("tiempo").value; if(lvl==="dificil")secs=Math.round(secs*2/3);
+  if(cur==="examen"&&secs>0){left=secs;$("timer").classList.remove("hidden","warn","danger");tick();timer=setInterval(tick,1000);}else $("timer").classList.add("hidden");
+  $("finishEarly").classList.toggle("hidden",cur!=="examen");
+  render();window.scrollTo(0,0);
+}
+function tick(){
+  var m=Math.floor(left/60),s=left%60;$("timer").textContent=m+":"+(s<10?"0":"")+s;
+  $("timer").classList.toggle("danger",left<=60);$("timer").classList.toggle("warn",left>60&&left<=180);
+  if(left<=0){clearInterval(timer);timer=null;finish();return;}
+  left--;
+}
+function answered(o){return o.p.type==="open"?(o.text.trim()!==""||o.shown):o.given!==null;}
+function prog(){
+  var n=exam.filter(answered).length;
+  $("fill").style.width=(exam.length?n/exam.length*100:0)+"%";
+  $("progTxt").textContent=done?"Examen terminado":"Pregunta "+(i+1)+" de "+exam.length+", respondidas "+n;
+}
+function letterOf(o,pos){return "ABCD"[o.order[pos]];}
+function rightText(p){return p.type==="mc"?p.options["ABCD".indexOf(p.answer)]:p.type==="tf"?(p.answer==="V"?"Verdadero":"Falso"):p.model;}
+function tagsHtml(p){
+  var t='<span class="tag">'+p.tema+'</span><span class="tag">'+esc(SUBS[p.sub])+'</span><span class="tag">'+TIPOS[p.type]+'</span>';
+  if(p.tag)t+='<span class="tag '+(p.tag==="Solo libro"?"solo":"clase")+'">'+esc(p.tag)+'</span>';
+  return t;
+}
+function render(){
+  var o=exam[i],p=o.p,instant=cur==="practica";
+  $("tags").innerHTML=tagsHtml(p);
+  $("q").textContent=(i+1)+". "+p.q;
+  $("fb").innerHTML="";
+  var a=$("area");a.innerHTML="";
+  if(p.type==="open"){
+    var ta=document.createElement("textarea");ta.placeholder="Escribe tu respuesta aquí";ta.value=o.text;
+    ta.oninput=function(){o.text=ta.value;prog();};a.appendChild(ta);
+    if(instant){
+      var b=document.createElement("button");b.className="btn light";b.textContent="Ver respuesta modelo";b.id="verModelo";
+      b.onclick=function(){o.shown=true;render();};a.appendChild(b);
+      if(o.shown){b.disabled=true;showModel(o);}
+    }
+  }else{
+    var idxs=p.type==="mc"?o.order:[0,1],keys=p.type==="mc"?["A","B","C","D"]:["V","F"];
+    idxs.forEach(function(orig,pos){
+      var key=p.type==="mc"?"ABCD"[orig]:keys[pos];
+      var btn=document.createElement("button");btn.className="opt";
+      btn.textContent=(p.type==="mc"?"abcd"[pos]+") ":"")+p.options[orig];
+      if(o.given===key)btn.classList.add("sel");
+      if(instant&&o.given!==null){btn.disabled=true;if(key===p.answer)btn.classList.add("ok");else if(key===o.given)btn.classList.add("bad");}
+      btn.onclick=function(){if(instant&&o.given!==null)return;o.given=key;render();prog();};
+      a.appendChild(btn);
+    });
+    if(instant&&o.given!==null){
+      var ok=o.given===p.answer;
+      $("fb").innerHTML='<div class="fb '+(ok?"ok":"bad")+'"><b>'+(ok?"¡Correcto!":"Incorrecto.")+'</b> Respuesta correcta: '+esc(rightText(p))+'<br>'+esc(p.exp)+'</div>';
     }
   }
-  function answer(key,btn,keys){
-    var p=PREGUNTAS[i], ok=key===p.answer;
-    var opts=$("area").querySelectorAll(".opt");
-    opts.forEach(function(o,k){o.disabled=true; if(keys[k]===p.answer)o.classList.add("ok");});
-    if(!ok)btn.classList.add("bad");
-    var right=p.type==="mc"?p.answer+") "+p.options[LETRAS.indexOf(p.answer)]:(p.answer==="V"?"Verdadero":"Falso");
-    $("fb").innerHTML='<div class="fb '+(ok?"ok":"bad")+'"><b>'+(ok?"¡Correcto!":"Incorrecto.")+'</b> Respuesta correcta: '+esc(right)+'<br>'+esc(p.exp)+'</div>';
-    results[i]={ok:ok,given:key};
-    $("next").classList.remove("hidden");
-  }
-  function grade(ok){
-    results[i]={ok:ok};
-    $("yes").disabled=true; $("no").disabled=true;
-    ($(ok?"yes":"no")).className="btn primary";
-    $("next").classList.remove("hidden");
-  }
-  function finish(){
-    $("fill").style.width="100%";
-    var good=results.filter(function(r){return r&&r.ok;}).length;
-    $("pct").textContent=Math.round(good/n*100)+"%";
-    $("score").textContent="Acertaste "+good+" de "+n+" preguntas.";
-    var temas={};
-    PREGUNTAS.forEach(function(p,k){temas[p.tema]=temas[p.tema]||{t:0,ok:0};temas[p.tema].t++; if(results[k]&&results[k].ok)temas[p.tema].ok++;});
-    var h='<table><tr><th>Tema</th><th>Aciertos</th></tr>';
-    Object.keys(temas).forEach(function(t){h+='<tr><td>'+t+'</td><td>'+temas[t].ok+' de '+temas[t].t+'</td></tr>';});
-    $("byTema").innerHTML=h+'</table>';
-    var m="";
-    PREGUNTAS.forEach(function(p,k){
-      if(results[k]&&results[k].ok)return;
-      var right=p.type==="mc"?p.answer+") "+p.options[LETRAS.indexOf(p.answer)]:p.type==="tf"?(p.answer==="V"?"Verdadero":"Falso"):p.model;
-      m+='<div class="miss"><div class="tags"><span class="tag">'+p.tema+'</span><span class="tag">'+TIPOS[p.type]+'</span>'+(p.tag?'<span class="tag solo">'+esc(p.tag)+'</span>':'')+'</div><b>'+(k+1)+'. '+esc(p.q)+'</b><p><b>Respuesta:</b> '+esc(right)+'</p><p class="muted">'+esc(p.exp)+'</p></div>';
-    });
-    $("missed").innerHTML=m||'<p>No fallaste ninguna. ¡Excelente!</p>';
-    show("end");
-  }
-  $("go").onclick=function(){i=0;results=[];show("quiz");render();};
-  $("next").onclick=function(){if(i<n-1){i++;render();window.scrollTo(0,0);}else finish();};
-  $("again").onclick=function(){i=0;results=[];show("quiz");render();};
+  $("prev").disabled=i===0;
+  $("next").textContent=i===exam.length-1?"Ver resultados":"Siguiente";
+  prog();
+}
+function showModel(o){
+  $("fb").innerHTML='<div class="fb model"><b>Respuesta modelo:</b><br>'+esc(o.p.model)+'<br><br><span class="muted">'+esc(o.p.exp)+'</span></div>'+
+   '<p class="muted" style="margin-bottom:0">¿Tu respuesta cubría lo esencial?</p><div class="two"><button class="btn light" id="yes">Sí, la tenía</button><button class="btn light" id="no">Me faltó</button></div>';
+  if(o.self!==null)$(o.self?"yes":"no").className="btn secondary";
+  $("yes").onclick=function(){o.self=true;render();};$("no").onclick=function(){o.self=false;render();};
+}
+$("prev").onclick=function(){if(i>0){i--;render();window.scrollTo(0,0);}};
+$("next").onclick=function(){
+  if(i<exam.length-1){i++;render();window.scrollTo(0,0);return;}
+  if(cur==="examen"&&exam.some(function(o){return !answered(o);})&&!confirm("Hay preguntas sin responder. ¿Ver resultados igualmente?"))return;
+  finish();
+};
+$("finishEarly").onclick=function(){if(confirm("¿Terminar el examen y ver resultados?"))finish();};
+function isOk(o){return o.p.type==="open"?o.self===true:o.given===o.p.answer;}
+function finish(){
+  done=true;if(timer){clearInterval(timer);timer=null;}
+  $("quiz").classList.add("hidden");$("end").classList.remove("hidden");
+  $("fill").style.width="100%";
+  var opens=exam.filter(function(o){return o.p.type==="open";});
+  $("openCard").classList.toggle("hidden",opens.length===0);
+  var h="";
+  exam.forEach(function(o,k){
+    if(o.p.type!=="open")return;
+    h+='<div class="item"><div class="tags">'+tagsHtml(o.p)+'</div><b>'+(k+1)+'. '+esc(o.p.q)+'</b>'+
+      '<p class="muted" style="margin:6px 0 2px">Tu respuesta:</p><div class="yours">'+(o.text.trim()?esc(o.text):"(sin responder)")+'</div>'+
+      '<div class="fb model"><b>Respuesta modelo:</b><br>'+esc(o.p.model)+'<br><span class="muted">'+esc(o.p.exp)+'</span></div>'+
+      '<div class="two"><button class="btn '+(o.self===true?"secondary":"light")+' selfBtn" data-k="'+k+'" data-v="1">Sí, la tenía</button><button class="btn '+(o.self===false?"secondary":"light")+' selfBtn" data-k="'+k+'" data-v="0">Me faltó</button></div></div>';
+  });
+  $("openList").innerHTML=h;
+  Array.prototype.forEach.call(document.querySelectorAll(".selfBtn"),function(b){b.onclick=function(){exam[+b.dataset.k].self=b.dataset.v==="1";finish();};});
+  summary();window.scrollTo(0,0);
+}
+function summary(){
+  var n=exam.length,good=exam.filter(isOk).length;
+  var auto=exam.filter(function(o){return o.p.type!=="open";}),autoOk=auto.filter(isOk).length;
+  $("pct").textContent=(n?Math.round(good/n*100):0)+"%";
+  $("score").textContent="Acertaste "+good+" de "+n+" preguntas.";
+  var nota=n?good/n*10:0,pen="";
+  if(lvl==="dificil"){var f=auto.length-autoOk;nota=Math.max(0,nota-f*0.5);pen=" (nivel difícil: menos 0,5 por cada fallo de V/F o selección múltiple)";}
+  $("nota").textContent="Nota aproximada: "+nota.toFixed(1).replace(".",",")+" de 10"+pen+".";
+  var pend=exam.filter(function(o){return o.p.type==="open"&&o.self===null;}).length;
+  $("pendOpen").textContent=pend?("Te faltan por marcar "+pend+" preguntas de desarrollo; cuentan como falladas hasta que las marques."):"";
+  var t={};exam.forEach(function(o){var k=o.p.tema+"|"+o.p.type;t[k]=t[k]||[0,0];t[k][1]++;if(isOk(o))t[k][0]++;});
+  var tb='<table><tr><th>Tema</th><th>V/F</th><th>Selección</th><th>Desarrollo</th></tr>';
+  ["Tema I","Tema II"].forEach(function(tm){tb+='<tr><td>'+tm+'</td>';["tf","mc","open"].forEach(function(ty){var v=t[tm+"|"+ty];tb+='<td>'+(v?v[0]+" de "+v[1]:"-")+'</td>';});tb+='</tr>';});
+  $("tabla").innerHTML=tb+'</table>';
+  var m="";
+  exam.forEach(function(o,k){
+    if(isOk(o))return;var p=o.p;
+    var yours=p.type==="open"?"":'<p><b>Tu respuesta:</b> '+(o.given===null?"(sin responder)":esc(p.type==="mc"?p.options["ABCD".indexOf(o.given)]:(o.given==="V"?"Verdadero":"Falso")))+'</p>';
+    m+='<div class="item"><div class="tags">'+tagsHtml(p)+'</div><b>'+(k+1)+'. '+esc(p.q)+'</b>'+yours+'<p><b>Respuesta correcta:</b> '+esc(rightText(p))+'</p><p class="muted">'+esc(p.exp)+'</p></div>';
+  });
+  $("missed").innerHTML=m||"<p>No fallaste ninguna. ¡Excelente!</p>";
+  $("againMissed").disabled=!exam.some(function(o){return !isOk(o);});
+}
+$("go").onclick=function(){
+  var l=pickExam();
+  if(!l.length){$("aviso").textContent="Selecciona al menos un subtema.";return;}
+  $("aviso").textContent="";start(l);
+};
+$("again").onclick=function(){start(exam.map(function(o){return o.p;}));};
+$("againMissed").onclick=function(){var l=exam.filter(function(o){return !isOk(o);}).map(function(o){return o.p;});if(l.length)start(l);};
+$("reconf").onclick=function(){$("end").classList.add("hidden");$("config").classList.remove("hidden");$("timer").classList.add("hidden");$("progTxt").textContent="Configura tu examen";$("fill").style.width="0";window.scrollTo(0,0);};
 })();
 </script>
 </body>
